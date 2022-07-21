@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -39,5 +40,24 @@ dependencies {
 
     implementation project(":data")
 
+    // Hilt
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
+    // Testing
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kaptTest "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+    androidTestImplementation "io.kotest:kotest-assertions-core:$kotestAssertionsCoreVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkAndroidVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoContribVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoContribVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoContribVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$hiltVersion"
+}
+
+kapt {
+    correctErrorTypes true
 }
