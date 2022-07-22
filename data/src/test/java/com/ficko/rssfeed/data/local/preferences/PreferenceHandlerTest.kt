@@ -15,7 +15,8 @@ class PreferenceHandlerTest {
 
     @Before
     fun setUp() {
-        PreferenceHandler.init(RuntimeEnvironment.application)
+        val context = RuntimeEnvironment.getApplication()
+        PreferenceHandler.init(context)
     }
 
     @Test

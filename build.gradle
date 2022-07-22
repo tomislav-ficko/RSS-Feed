@@ -3,6 +3,8 @@ buildscript {
     ext {
         coreKtxVersion = '1.8.0'
         hiltVersion = "2.42"
+        roomVersion = "2.4.2"
+
         junitVersion = "4.13.2"
         coreTestingVersion = '2.1.0'
         mockkAndroidVersion = '1.12.0'

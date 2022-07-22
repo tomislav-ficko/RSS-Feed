@@ -45,6 +45,15 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
     // Testing
     testApi "junit:junit:$junitVersion"
     testApi "androidx.arch.core:core-testing:$coreTestingVersion"
