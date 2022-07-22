@@ -14,6 +14,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "BASE_URL", "\"https://placeholder.url\""
     }
 
     buildTypes {
@@ -48,11 +50,18 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "com.google.code.gson:gson:2.8.9"
     kapt "androidx.room:room-compiler:$roomVersion"
     kapt "org.xerial:sqlite-jdbc:3.34.0"
 
-    // Gson
-    implementation 'com.google.code.gson:gson:2.8.9'
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation("com.squareup.retrofit2:converter-simplexml:$retrofitVersion") {
+        exclude module: "stax"
+        exclude module: "stax-api"
+        exclude module: "xpp3"
+    }
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     // Testing
     testApi "junit:junit:$junitVersion"
@@ -61,6 +70,7 @@ dependencies {
     testApi "io.mockk:mockk:$mockkAndroidVersion"
     testApi "org.robolectric:robolectric:$robolectricVersion"
     testApi "com.google.dagger:hilt-android-testing:$hiltVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.7.2"
     kaptTest "com.google.dagger:hilt-compiler:$hiltVersion"
 }
 
