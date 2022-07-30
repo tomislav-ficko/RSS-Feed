@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="navigation_radius">30dp</dimen>
+    <dimen name="height_bottom_nav_bar">60dp</dimen>
+    <dimen name="height_app_bar">50dp</dimen>
+    <dimen name="margin_content">20dp</dimen>
+</resources>

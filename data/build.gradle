@@ -39,12 +39,10 @@ dependencies {
 
     // Core
     api "androidx.core:core-ktx:$coreKtxVersion"
-    api "androidx.appcompat:appcompat:1.4.2"
-    api "com.google.android.material:material:1.6.1"
     implementation "androidx.preference:preference:1.2.0"
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    api "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
     // Room
@@ -68,7 +66,7 @@ dependencies {
     testApi "androidx.arch.core:core-testing:$coreTestingVersion"
     testApi "io.kotest:kotest-assertions-core:$kotestAssertionsCoreVersion"
     testApi "io.mockk:mockk:$mockkAndroidVersion"
-    testApi "org.robolectric:robolectric:$robolectricVersion"
+    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
     testApi "com.google.dagger:hilt-android-testing:$hiltVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.7.2"
     kaptTest "com.google.dagger:hilt-compiler:$hiltVersion"
