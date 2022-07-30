@@ -7,7 +7,6 @@ import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.ui.base.BaseFragment
-import com.ficko.rssfeed.ui.common.VerticalSpaceItemDecoration
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +34,5 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     private fun setUpFragment(feeds: List<RssFeed>) {
         adapter = RssFeedAdapter(feeds).apply { setListener(this@RssFeedsFragment) }
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.addItemDecoration(VerticalSpaceItemDecoration(20))
     }
 }

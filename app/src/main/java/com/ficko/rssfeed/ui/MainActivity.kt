@@ -7,10 +7,12 @@ import androidx.navigation.Navigation.findNavController
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
+import com.ficko.rssfeed.ui.common.AppBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(),
+    AppBar.AppBarListener {
 
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
@@ -32,8 +34,14 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun addButtonClicked() {
+        showScreenForAddingNewFeed()
+    }
+
+    override fun backButtonClicked() {}
+
     private fun setUpActivity() {
-        setSupportActionBar(binding.appBar)
+        binding.appBar.setListener(this)
         setUpBottomNavBar()
     }
 
@@ -44,6 +52,15 @@ class MainActivity : BaseActivity() {
             true
         }
         setUpTabColors()
+    }
+
+    private fun showScreenForAddingNewFeed() {
+        binding.appBar.updateView(
+            backButtonEnabled = true,
+            addButtonEnabled = false,
+            title = getString(R.string.title_add_new_feed)
+        )
+        // TODO open AddRssFeedFragment
     }
 
     private fun feedsTabSelected() = binding.activeTabIndex == 0
