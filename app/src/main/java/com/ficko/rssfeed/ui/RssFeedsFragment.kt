@@ -7,6 +7,7 @@ import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.ui.base.BaseFragment
+import com.ficko.rssfeed.vm.NavigationViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +16,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     RssFeedAdapter.RssFeedViewHolderListener {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
+    private val navigationViewModel by viewModels<NavigationViewModel>()
     private lateinit var adapter: RssFeedAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,6 +26,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     }
 
     override fun itemClicked(item: RssFeed) {
+        navigationViewModel.feedDetailsOpened(item.name)
         RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item)
     }
 

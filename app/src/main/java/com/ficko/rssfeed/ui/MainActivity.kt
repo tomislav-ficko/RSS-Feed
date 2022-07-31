@@ -2,18 +2,21 @@ package com.ficko.rssfeed.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation.findNavController
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
 import com.ficko.rssfeed.ui.common.AppBar
+import com.ficko.rssfeed.vm.NavigationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(),
     AppBar.AppBarListener {
 
+    private val navigationViewModel by viewModels<NavigationViewModel>()
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
     private val favoritesNavController by lazy { findNavController(binding.favoritesContainer) }
@@ -21,6 +24,7 @@ class MainActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        observeViewModel()
         setUpActivity()
     }
 
@@ -39,6 +43,23 @@ class MainActivity : BaseActivity(),
     }
 
     override fun backButtonClicked() {}
+
+    private fun observeViewModel() {
+        navigationViewModel.feedDetailsOpen.observe(this) { feedName ->
+            binding.appBar.updateView(
+                backButtonEnabled = true,
+                title = feedName,
+                addButtonEnabled = false
+            )
+        }
+        navigationViewModel.feedsOpen.observe(this) {
+            binding.appBar.updateView(
+                backButtonEnabled = false,
+                title = "",
+                addButtonEnabled = true
+            )
+        }
+    }
 
     private fun setUpActivity() {
         binding.appBar.setListener(this)
