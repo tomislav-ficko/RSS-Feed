@@ -4,28 +4,28 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ficko.rssfeed.databinding.ListViewHolderBinding
-import com.ficko.rssfeed.domain.RssFeedItem
+import com.ficko.rssfeed.domain.CommonRssAttributes
 
-class RssFeedItemAdapter(
-    private val items: List<RssFeedItem>
-) : RecyclerView.Adapter<RssFeedItemAdapter.ListViewHolder>() {
+class ListAdapter(
+    private val items: List<CommonRssAttributes>
+) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
     inner class ListViewHolder(
         private val binding: ListViewHolderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(feedItem: RssFeedItem) {
+        fun bind(item: CommonRssAttributes) {
             binding.apply {
-                imageUrl = feedItem.imageUrl
-                titleValue = feedItem.name
-                descriptionValue = feedItem.description
-                binding.root.setOnClickListener { listener?.itemClicked(feedItem) }
+                imageUrl = item.imageUrl
+                titleValue = item.name
+                descriptionValue = item.description
+                binding.root.setOnClickListener { listener?.itemClicked(item) }
             }
         }
     }
 
     interface ListViewHolderListener {
-        fun itemClicked(item: RssFeedItem)
+        fun itemClicked(item: CommonRssAttributes)
     }
 
     private lateinit var binding: ListViewHolderBinding
