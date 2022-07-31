@@ -9,8 +9,13 @@ import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
 import com.ficko.rssfeed.ui.common.AppBar
+import com.ficko.rssfeed.ui.common.Utils
 import com.ficko.rssfeed.vm.NavigationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(),
@@ -20,6 +25,7 @@ class MainActivity : BaseActivity(),
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
     private val favoritesNavController by lazy { findNavController(binding.favoritesContainer) }
+    private var appClosable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +35,17 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
-        if (feedsTabSelected()) {// TODO && initial destination is not shown
-            feedsNavController.navigateUp()
-        } else if (favoritesTabSelected()) {
+        navigationViewModel.returningToPreviousScreen()
+        if (favoritesTabSelected() && !favoritesRootVisible()) {
+            favoritesNavController.navigateUp()
+        } else if (favoritesTabSelected() && favoritesRootVisible()) {
             selectFeedsTab()
+        } else if (feedsTabSelected() && !feedsRootVisible()) {
+            feedsNavController.navigateUp()
+        } else if (feedsTabSelected() && !appClosable) {
+            appClosable = true
+            Utils.showToast(this, R.string.back_button_notice)
+            enableAppCloseNoticeAfterDelay()
         } else {
             super.onBackPressed()
         }
@@ -42,21 +55,23 @@ class MainActivity : BaseActivity(),
         showScreenForAddingNewFeed()
     }
 
-    override fun backButtonClicked() {}
+    override fun backButtonClicked() {
+        onBackPressed()
+    }
 
     private fun observeViewModel() {
-        navigationViewModel.feedDetailsOpen.observe(this) { feedName ->
-            binding.appBar.updateView(
-                backButtonEnabled = true,
-                title = feedName,
-                addButtonEnabled = false
-            )
-        }
         navigationViewModel.feedsOpen.observe(this) {
             binding.appBar.updateView(
                 backButtonEnabled = false,
                 title = "",
                 addButtonEnabled = true
+            )
+        }
+        navigationViewModel.feedDetailsOpen.observe(this) { feedName ->
+            binding.appBar.updateView(
+                backButtonEnabled = true,
+                title = feedName,
+                addButtonEnabled = false
             )
         }
     }
@@ -85,8 +100,9 @@ class MainActivity : BaseActivity(),
     }
 
     private fun feedsTabSelected() = binding.activeTabIndex == 0
-
     private fun favoritesTabSelected() = binding.activeTabIndex == 1
+    private fun feedsRootVisible() = feedsNavController.currentDestination?.id == R.id.feeds_destination
+    private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.favorites_destination
 
     private fun selectFeedsTab() {
         binding.bottomNavBar.selectedItemId = R.id.feeds_tab
@@ -107,5 +123,12 @@ class MainActivity : BaseActivity(),
         val colorStates = ColorStateList(states, colors)
         binding.bottomNavBar.itemIconTintList = colorStates
         binding.bottomNavBar.itemTextColor = colorStates
+    }
+
+    private fun enableAppCloseNoticeAfterDelay() {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            appClosable = false
+        }
     }
 }
