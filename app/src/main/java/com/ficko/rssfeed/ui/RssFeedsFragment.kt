@@ -27,7 +27,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
 
     override fun itemClicked(item: RssFeed) {
         navigationViewModel.feedDetailsOpened(item.name)
-        RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item)
+        RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item).execute()
     }
 
     private fun observeViewModel() {
