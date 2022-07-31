@@ -14,21 +14,21 @@ import dagger.hilt.android.AndroidEntryPoint
 class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feeds_fragment),
     RssFeedAdapter.RssFeedViewHolderListener {
 
-    private val viewModel by viewModels<RssFeedViewModel>()
+    private val feedViewModel by viewModels<RssFeedViewModel>()
     private lateinit var adapter: RssFeedAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        viewModel.getRssFeeds()
+        feedViewModel.getRssFeeds()
     }
 
     override fun itemClicked(item: RssFeed) {
-        // TODO open RssFeedDetailsFragment
+        RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item)
     }
 
     private fun observeViewModel() {
-        viewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
+        feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
     }
 
     private fun setUpFragment(feeds: List<RssFeed>) {

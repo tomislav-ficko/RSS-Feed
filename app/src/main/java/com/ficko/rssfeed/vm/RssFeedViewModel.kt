@@ -10,38 +10,32 @@ import javax.inject.Inject
 class RssFeedViewModel @Inject constructor() : BaseViewModel() {
 
     val getRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
+    val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
 
     fun getRssFeeds() {
-        getRssFeedsSuccess.postValue(listOf(
-            RssFeed().apply {
-                name = "Feed One"
-                description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been..."
-                url = "https://feed.one.com"
-                imageUrl = "https://picsum.photos/200"
-                items = getSampleFeedItems()
-            },
-            RssFeed().apply {
-                name = "Feed Two"
-                description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been..."
-                url = "https://feed.two.com"
-                imageUrl = "https://picsum.photos/200"
-                items = getSampleFeedItems()
-            }
-        ))
+        getRssFeedsSuccess.postValue(getSampleFeeds())
     }
 
-    private fun getSampleFeedItems() = listOf(
-        RssFeedItem().apply {
-            name = "Item One"
+    fun getRssFeedItems(feed: RssFeed) {
+        getRssFeedItemsSuccess.postValue(getSampleFeedItems())
+    }
+
+    private fun getSampleFeeds() = List(6) {
+        RssFeed().apply {
+            name = "Feed"
             description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been..."
-            url = "https://item.one.com"
+            url = "https://feed.com"
             imageUrl = "https://picsum.photos/200"
-        },
+            items = getSampleFeedItems()
+        }
+    }
+
+    private fun getSampleFeedItems() = List(6) {
         RssFeedItem().apply {
-            name = "Item Two"
+            name = "Item"
             description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been..."
-            url = "https://item.two.com"
+            url = "https://item.com"
             imageUrl = "https://picsum.photos/200"
         }
-    )
+    }
 }

@@ -1,6 +1,8 @@
 package com.ficko.rssfeed.domain
 
-class RssFeed {
+import java.io.Serializable
+
+class RssFeed : Serializable {
     var id = ""
     var url = ""
     var name = ""
