@@ -60,19 +60,28 @@ class MainActivity : BaseActivity(),
     }
 
     private fun observeViewModel() {
-        navigationViewModel.feedsOpen.observe(this) {
-            binding.appBar.updateView(
-                backButtonEnabled = false,
-                title = "",
-                addButtonEnabled = true
-            )
-        }
-        navigationViewModel.feedDetailsOpen.observe(this) { feedName ->
-            binding.appBar.updateView(
-                backButtonEnabled = true,
-                title = feedName,
-                addButtonEnabled = false
-            )
+        navigationViewModel.apply {
+            feedsOpen.observe(this@MainActivity) {
+                binding.appBar.updateView(
+                    backButtonEnabled = false,
+                    title = "",
+                    addButtonEnabled = true
+                )
+            }
+            feedDetailsOpen.observe(this@MainActivity) { feedName ->
+                binding.appBar.updateView(
+                    backButtonEnabled = true,
+                    title = feedName,
+                    addButtonEnabled = false
+                )
+            }
+            newFeedOpen.observe(this@MainActivity) {
+                binding.appBar.updateView(
+                    backButtonEnabled = true,
+                    addButtonEnabled = false,
+                    title = getString(R.string.title_add_new_feed)
+                )
+            }
         }
     }
 
@@ -91,11 +100,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun showScreenForAddingNewFeed() {
-        binding.appBar.updateView(
-            backButtonEnabled = true,
-            addButtonEnabled = false,
-            title = getString(R.string.title_add_new_feed)
-        )
+        navigationViewModel.addNewFeedOpened()
         // TODO open AddRssFeedFragment
     }
 
