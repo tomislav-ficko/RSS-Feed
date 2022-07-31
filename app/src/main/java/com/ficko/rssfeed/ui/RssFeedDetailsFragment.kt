@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.ficko.rssfeed.R
-import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
+import com.ficko.rssfeed.databinding.RssFeedDetailsFragmentBinding
 import com.ficko.rssfeed.domain.RssFeedItem
 import com.ficko.rssfeed.ui.base.BaseFragment
 import com.ficko.rssfeed.vm.NavigationViewModel
@@ -13,7 +13,7 @@ import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RssFeedDetailsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed_details_fragment),
+class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.layout.rss_feed_details_fragment),
     RssFeedItemAdapter.ListViewHolderListener {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
