@@ -2,13 +2,14 @@ package com.ficko.rssfeed.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.NewFeedFragmentBinding
 import com.ficko.rssfeed.ui.base.BaseFragment
 import com.ficko.rssfeed.ui.common.Utils
-import com.ficko.rssfeed.vm.NavigationViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_fragment) {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
-    private val navigationViewModel by viewModels<NavigationViewModel>()
+    private val appBarViewModel by activityViewModels<AppBarViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +45,7 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
     }
 
     private fun navigateToPreviousFragment() {
-        navigationViewModel.returningToPreviousScreen()
+        appBarViewModel.returningToPreviousScreen()
         findNavController().navigateUp()
     }
 }

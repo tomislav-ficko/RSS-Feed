@@ -12,7 +12,7 @@ import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
 import com.ficko.rssfeed.ui.common.AppBar
 import com.ficko.rssfeed.ui.common.Utils
-import com.ficko.rssfeed.vm.NavigationViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class MainActivity : BaseActivity(),
     AppBar.AppBarListener {
 
-    private val navigationViewModel by viewModels<NavigationViewModel>()
+    private val appBarViewModel by viewModels<AppBarViewModel>()
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
     private val favoritesNavController by lazy { findNavController(binding.favoritesContainer) }
@@ -37,13 +37,14 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
-        navigationViewModel.returningToPreviousScreen()
         if (favoritesTabSelected() && !favoritesRootVisible()) {
             favoritesNavController.navigateUp()
+            displayAppBarForFeedsScreen()
         } else if (favoritesTabSelected() && favoritesRootVisible()) {
             selectFeedsTab()
         } else if (feedsTabSelected() && !feedsRootVisible()) {
             feedsNavController.navigateUp()
+            displayAppBarForFeedsScreen()
         } else if (feedsTabSelected() && !appClosable) {
             appClosable = true
             Utils.showToast(this, R.string.back_button_notice)
@@ -62,29 +63,8 @@ class MainActivity : BaseActivity(),
     }
 
     private fun observeViewModel() {
-        navigationViewModel.apply {
-            feedsOpen.observe(this@MainActivity) {
-                binding.appBar.updateView(
-                    backButtonEnabled = false,
-                    title = "",
-                    addButtonEnabled = true
-                )
-            }
-            feedDetailsOpen.observe(this@MainActivity) { feedName ->
-                binding.appBar.updateView(
-                    backButtonEnabled = true,
-                    title = feedName,
-                    addButtonEnabled = false
-                )
-            }
-            newFeedOpen.observe(this@MainActivity) {
-                binding.appBar.updateView(
-                    backButtonEnabled = true,
-                    addButtonEnabled = false,
-                    title = getString(R.string.title_add_new_feed)
-                )
-            }
-        }
+        appBarViewModel.feedDetailsOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
+        appBarViewModel.returningToPreviousScreen.observe(this) { displayAppBarForFeedsScreen() }
     }
 
     private fun setUpActivity() {
@@ -102,15 +82,15 @@ class MainActivity : BaseActivity(),
     }
 
     private fun showScreenForAddingNewFeed() {
-        navigationViewModel.addNewFeedOpened()
+        displayAppBarForAddNewFeedScreen()
         RssFeedsFragmentDirections.actionFeedsDestinationToNewFeedFragment().execute()
     }
 
     private fun feedsTabSelected() = binding.activeTabIndex == 0
+
     private fun favoritesTabSelected() = binding.activeTabIndex == 1
     private fun feedsRootVisible() = feedsNavController.currentDestination?.id == R.id.feeds_destination
     private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.favorites_destination
-
     private fun selectFeedsTab() {
         binding.bottomNavBar.selectedItemId = R.id.feeds_tab
         binding.activeTabIndex = 0
@@ -119,6 +99,16 @@ class MainActivity : BaseActivity(),
     private fun updateActiveTabIndex(activeItemId: Int) {
         binding.activeTabIndex = if (activeItemId == R.id.feeds_tab) 0 else 1
     }
+
+    private fun displayAppBarForFeedsScreen() = updateAppBar(addButtonEnabled = true, title = "")
+    private fun displayAppBarForAddNewFeedScreen() = updateAppBar(backButtonEnabled = true, title = getString(R.string.title_add_new_feed))
+    private fun displayAppBarForFeedDetailsScreen(feedName: String) = updateAppBar(backButtonEnabled = true, title = feedName)
+
+    private fun updateAppBar(
+        backButtonEnabled: Boolean = false,
+        title: String,
+        addButtonEnabled: Boolean = false
+    ) = binding.appBar.updateView(backButtonEnabled, title, addButtonEnabled)
 
     private fun setUpTabColors() {
         val stateUnchecked = intArrayOf(-android.R.attr.state_checked)

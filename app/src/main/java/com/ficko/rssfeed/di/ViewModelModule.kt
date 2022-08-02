@@ -1,6 +1,6 @@
 package com.ficko.rssfeed.di
 
-import com.ficko.rssfeed.vm.NavigationViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.Module
 import dagger.Provides
@@ -15,5 +15,5 @@ class ViewModelModule {
     fun provideRssFeedViewModel() = RssFeedViewModel()
 
     @Provides
-    fun provideNavigationViewModel() = NavigationViewModel()
+    fun provideAppBarViewModel() = AppBarViewModel()
 }

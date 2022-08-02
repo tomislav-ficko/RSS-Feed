@@ -2,13 +2,14 @@ package com.ficko.rssfeed.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
 import com.ficko.rssfeed.domain.CommonRssAttributes
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.ui.base.BaseFragment
-import com.ficko.rssfeed.vm.NavigationViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +18,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     ListAdapter.ListViewHolderListener {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
-    private val navigationViewModel by viewModels<NavigationViewModel>()
+    private val appBarViewModel by activityViewModels<AppBarViewModel>()
     private lateinit var adapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,7 +28,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     }
 
     override fun itemClicked(item: CommonRssAttributes) {
-        navigationViewModel.feedDetailsOpened(item.name)
+        appBarViewModel.feedDetailsScreenOpened(item.name)
         RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item as RssFeed).execute()
     }
 
