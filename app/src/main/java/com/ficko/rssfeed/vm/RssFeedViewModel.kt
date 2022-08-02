@@ -11,6 +11,7 @@ class RssFeedViewModel @Inject constructor() : BaseViewModel() {
 
     val getRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
     val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
+    val addNewFeedSuccess = MutableLiveData<Unit>()
 
     fun getRssFeeds() {
         getRssFeedsSuccess.postValue(getSampleFeeds())
@@ -18,6 +19,10 @@ class RssFeedViewModel @Inject constructor() : BaseViewModel() {
 
     fun getRssFeedItems(feed: RssFeed) {
         getRssFeedItemsSuccess.postValue(getSampleFeedItems())
+    }
+
+    fun addNewFeed(url: String) {
+        addNewFeedSuccess.postValue(Unit)
     }
 
     private fun getSampleFeeds() = List(6) {

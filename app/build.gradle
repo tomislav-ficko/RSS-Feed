@@ -57,7 +57,7 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     implementation "com.pkmmte.pkrss:pkrss:1.0.1"
 

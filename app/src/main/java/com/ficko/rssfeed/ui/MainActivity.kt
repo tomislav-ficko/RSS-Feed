@@ -4,7 +4,9 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
@@ -101,7 +103,7 @@ class MainActivity : BaseActivity(),
 
     private fun showScreenForAddingNewFeed() {
         navigationViewModel.addNewFeedOpened()
-        // TODO open AddRssFeedFragment
+        RssFeedsFragmentDirections.actionFeedsDestinationToNewFeedFragment().execute()
     }
 
     private fun feedsTabSelected() = binding.activeTabIndex == 0
@@ -136,4 +138,6 @@ class MainActivity : BaseActivity(),
             appClosable = false
         }
     }
+
+    private fun NavDirections.execute() = findNavController(binding.feedsContainer.id).navigate(this)
 }
