@@ -2,7 +2,6 @@ package com.ficko.rssfeed.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ficko.rssfeed.R
@@ -12,10 +11,6 @@ import com.ficko.rssfeed.ui.common.Utils
 import com.ficko.rssfeed.vm.NavigationViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_fragment) {
@@ -39,8 +34,8 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
     private fun observeViewModel() {
         feedViewModel.addNewFeedSuccess.observe(viewLifecycleOwner) {
             val message = requireContext().getString(R.string.success_toast)
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            navigateToPreviousFragmentAfterDelay()
+            Utils.showSuccessNotification(requireContext(), layoutInflater, message)
+            navigateToPreviousFragment()
         }
     }
 
@@ -48,11 +43,8 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
         binding.fragment = this
     }
 
-    private fun navigateToPreviousFragmentAfterDelay() {
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            navigationViewModel.returningToPreviousScreen()
-            findNavController().navigateUp()
-        }
+    private fun navigateToPreviousFragment() {
+        navigationViewModel.returningToPreviousScreen()
+        findNavController().navigateUp()
     }
 }
