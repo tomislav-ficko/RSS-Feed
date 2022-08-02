@@ -29,7 +29,9 @@ class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.lay
     }
 
     override fun itemClicked(item: CommonRssAttributes) {
-        // TODO open WebViewActivity
+        startActivity(
+            WebViewActivity.buildIntent(requireContext(), item as RssFeedItem)
+        )
     }
 
     private fun observeViewModel() {

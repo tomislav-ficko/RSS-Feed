@@ -1,3 +1,5 @@
 package com.ficko.rssfeed.domain
 
-class RssFeedItem : CommonRssAttributes()
+import java.io.Serializable
+
+class RssFeedItem : CommonRssAttributes(), Serializable
