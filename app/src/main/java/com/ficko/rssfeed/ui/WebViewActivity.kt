@@ -9,8 +9,10 @@ import android.webkit.WebViewClient
 import com.ficko.rssfeed.databinding.WebViewActivityBinding
 import com.ficko.rssfeed.domain.RssFeedItem
 import com.ficko.rssfeed.ui.base.BaseActivity
+import com.ficko.rssfeed.ui.common.AppBar
 
-class WebViewActivity : BaseActivity() {
+class WebViewActivity : BaseActivity(),
+    AppBar.AppBarListener {
 
     companion object {
         private const val ITEM_KEY = "rss_feed_item"
@@ -23,13 +25,20 @@ class WebViewActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpActivity()
+        setUpActivity() // TODO item data inside intent is being lost
     }
 
+    override fun backButtonClicked() {
+        onBackPressed()
+    }
+
+    override fun addButtonClicked() {}
+
     private fun setUpActivity() {
-        preventWebViewLinksRedirectingUserOutsideOfApp()
+        binding.appBar.setListener(this)
         intent.getSerializableExtra(ITEM_KEY)?.let {
             val item = it as RssFeedItem
+            preventWebViewLinksRedirectingUserOutsideOfApp()
             loadWebView(item.url)
             binding.appBar.updateView(title = item.name)
         }
