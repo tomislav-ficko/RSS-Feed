@@ -3,6 +3,11 @@
     package="com.ficko.rssfeed">
 
     <application>
-        <activity android:name=".ViewTestingActivity" />
+        <activity
+            android:name=".ViewTestingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FragmentTestingActivity"
+            android:exported="false" />
     </application>
 </manifest>
