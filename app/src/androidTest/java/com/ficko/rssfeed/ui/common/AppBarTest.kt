@@ -21,8 +21,7 @@ class AppBarTest : BaseViewTest() {
     private lateinit var appBar: AppBar
 
     @Before
-    fun setUp() {
-        launchActivity()
+    override fun setUp() {
         runOnUiThread {
             appBar = AppBar(getActivityInstance())
             loadView(appBar)

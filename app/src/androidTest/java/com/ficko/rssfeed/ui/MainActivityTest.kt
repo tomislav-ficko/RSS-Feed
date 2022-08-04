@@ -15,11 +15,9 @@ import org.junit.Test
 @HiltAndroidTest
 class MainActivityTest : BaseActivityTest() {
 
-    override val activityClass = MainActivity::class.java
-
     @Before
     fun setUp() {
-        launchActivity()
+        launchActivity<MainActivity>()
     }
 
     @Test

@@ -32,12 +32,7 @@ abstract class BaseActivityTest : BaseMatchers {
     @JvmField
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    protected abstract val activityClass: Class<out Activity>
-
-    protected lateinit var activityScenario: ActivityScenario<out Activity>
-
-    private lateinit var activityInstance: Activity
-
+    protected lateinit var activityInstance: Activity
     protected val anyUseCaseInProgress = MutableLiveData<Boolean>()
     protected val anyUseCaseFailed = MutableLiveData<Throwable>()
     private val coroutineScope = MainScope()
@@ -58,14 +53,15 @@ abstract class BaseActivityTest : BaseMatchers {
         }
     }
 
-    protected fun launchActivity(intent: Intent = Intent()) {
-        activityScenario = ActivityScenario.launch(
-            Intent(InstrumentationRegistry.getInstrumentation().targetContext, activityClass).apply {
-                intent.extras?.let { putExtras(it) }
-                intent.data?.let { data = it }
-                flags = intent.flags
-            })
-        activityScenario.onActivity { activityInstance = it }
+    protected inline fun <reified T : Activity> launchActivity(intent: Intent = Intent()) {
+        val internalIntent = Intent(
+            InstrumentationRegistry.getInstrumentation().targetContext, T::class.java
+        ).apply {
+            intent.extras?.let { putExtras(it) }
+            intent.data?.let { data = it }
+            flags = intent.flags
+        }
+        ActivityScenario.launch<T>(internalIntent).onActivity { activityInstance = it }
         mockIntentCalls()
     }
 
@@ -84,7 +80,7 @@ abstract class BaseActivityTest : BaseMatchers {
             Thread.sleep(additionalSleepTime)
     }
 
-    private fun mockIntentCalls() {
+    protected fun mockIntentCalls() {
         Intents.intending(IntentMatchers.anyIntent())
             .respondWith(Instrumentation.ActivityResult(Activity.RESULT_OK, Intent()))
     }
