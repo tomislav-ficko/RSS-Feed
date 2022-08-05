@@ -22,6 +22,7 @@ class AppBarTest : BaseViewTest() {
 
     @Before
     override fun setUp() {
+        super.setUp()
         runOnUiThread {
             appBar = AppBar(getActivityInstance())
             loadView(appBar)
