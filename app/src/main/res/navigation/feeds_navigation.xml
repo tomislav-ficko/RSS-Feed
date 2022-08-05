@@ -13,10 +13,18 @@
 
         <action
             android:id="@+id/action_feeds_destination_to_feed_details_destination"
-            app:destination="@id/feed_details_destination" />
+            app:destination="@id/feed_details_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_feeds_destination_to_newFeedFragment"
-            app:destination="@id/new_feed_destination" />
+            app:destination="@id/new_feed_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -27,7 +35,11 @@
 
         <argument
             android:name="rssFeed"
-            app:argType="com.ficko.rssfeed.domain.RssFeed" />
+            app:argType="com.ficko.rssfeed.domain.RssFeed"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
