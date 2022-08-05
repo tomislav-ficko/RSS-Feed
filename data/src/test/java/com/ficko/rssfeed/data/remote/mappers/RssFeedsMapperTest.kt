@@ -5,35 +5,32 @@ import com.ficko.rssfeed.data.remote.responses.RssFeedResponse
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
-
 class RssFeedsMapperTest {
 
     @Test
-    fun shouldMapRssFeedsResponseToRssFeeds() {
+    fun shouldMapRssFeedsResponseToRssFeed() {
         // Given
-        val input = listOf(
-            RssFeedResponse().apply {
-                title = "feed title"
-                description = "feed description"
-                link = "https://rss-feed.url"
-                imageUrl = "https://rss-feed-image.url"
-                items = listOf(
-                    RssFeedItemResponse().apply {
-                        title = "item title"
-                        description = "item description"
-                        link = "https://item.url"
-                        imageUrl = "https://item-image.url"
-                    }
-                )
-            }
-        )
+        val input = RssFeedResponse().apply {
+            title = "feed title"
+            description = "feed description"
+            link = "https://rss-feed.url"
+            imageUrl = "https://rss-feed-image.url"
+            items = listOf(
+                RssFeedItemResponse().apply {
+                    title = "item title"
+                    description = "item description"
+                    link = "https://item.url"
+                    imageUrl = "https://item-image.url"
+                }
+            )
+        }
 
         // When
-        val result = RssFeedsMapper.mapRssFeedResponsesToRssFeeds(input)
+        val result = RssFeedsMapper.mapRssFeedResponseToRssFeed(input)
 
         // Then
-        with(result[0]) {
-            input[0].let {
+        with(result) {
+            input.let {
                 name shouldBe it.title
                 description shouldBe it.description
                 url shouldBe it.link

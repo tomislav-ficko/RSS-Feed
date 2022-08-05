@@ -6,7 +6,7 @@ import com.ficko.rssfeed.data.local.database.dto.RssFeedDto
 @Dao
 interface RssFeedDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(vararg feeds: RssFeedDto)
 
     @Query("SELECT * FROM feeds WHERE `id` IN (:feedId)")
