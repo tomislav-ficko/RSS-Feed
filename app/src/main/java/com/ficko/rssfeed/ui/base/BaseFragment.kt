@@ -8,6 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 
 abstract class BaseFragment<VB : ViewDataBinding>(
     @LayoutRes private val layoutRes: Int
@@ -23,4 +25,6 @@ abstract class BaseFragment<VB : ViewDataBinding>(
         binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         return binding.root
     }
+
+    protected fun NavDirections.execute() = findNavController().navigate(this)
 }

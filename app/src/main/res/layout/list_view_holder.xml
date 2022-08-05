@@ -6,11 +6,20 @@
     <data>
 
         <variable
-            name="item"
-            type="com.ficko.rssfeed.domain.RssFeed" />
+            name="imageUrl"
+            type="String" />
+
+        <variable
+            name="titleValue"
+            type="String" />
+
+        <variable
+            name="descriptionValue"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_holder_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -23,7 +32,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="@dimen/margin_content"
-            android:imageUrl="@{item.imageUrl}"
+            android:imageUrl="@{imageUrl}"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_content"
-            android:text="@{item.name}"
+            android:text="@{titleValue}"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image"
@@ -56,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_content"
             android:layout_marginTop="@dimen/margin_content"
-            android:text="@{item.description}"
+            android:text="@{descriptionValue}"
             app:layout_constraintTop_toBottomOf="@id/divider"
             tools:text="@string/lorem_ipsum" />
 

@@ -2,6 +2,8 @@
 <resources>
     <dimen name="radius_navigation">30dp</dimen>
     <dimen name="radius_list_item">30dp</dimen>
+    <dimen name="radius_input">15dp</dimen>
+    <dimen name="radius_button">40dp</dimen>
 
     <dimen name="height_bottom_nav_bar">60dp</dimen>
     <dimen name="height_app_bar">50dp</dimen>

@@ -9,6 +9,31 @@
         android:id="@+id/feeds_destination"
         android:name="com.ficko.rssfeed.ui.RssFeedsFragment"
         android:label="RssFeedsFragment"
-        tools:layout="@layout/rss_feeds_fragment" />
+        tools:layout="@layout/rss_feeds_fragment">
+
+        <action
+            android:id="@+id/action_feeds_destination_to_feed_details_destination"
+            app:destination="@id/feed_details_destination" />
+        <action
+            android:id="@+id/action_feeds_destination_to_newFeedFragment"
+            app:destination="@id/new_feed_destination" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/feed_details_destination"
+        android:name="com.ficko.rssfeed.ui.RssFeedDetailsFragment"
+        android:label="RssFeedDetailsFragment"
+        tools:layout="@layout/rss_feed_details_fragment">
+
+        <argument
+            android:name="rssFeed"
+            app:argType="com.ficko.rssfeed.domain.RssFeed" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/new_feed_destination"
+        android:name="com.ficko.rssfeed.ui.NewFeedFragment"
+        android:label="NewFeedFragment"
+        tools:layout="@layout/new_feed_fragment" />
 
 </navigation>

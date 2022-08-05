@@ -2,42 +2,42 @@ package com.ficko.rssfeed.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.ficko.rssfeed.R
-import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
+import com.ficko.rssfeed.databinding.RssFeedDetailsFragmentBinding
 import com.ficko.rssfeed.domain.CommonRssAttributes
-import com.ficko.rssfeed.domain.RssFeed
+import com.ficko.rssfeed.domain.RssFeedItem
 import com.ficko.rssfeed.ui.base.BaseFragment
-import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feeds_fragment),
+class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.layout.rss_feed_details_fragment),
     ListAdapter.ListViewHolderListener {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
-    private val appBarViewModel by activityViewModels<AppBarViewModel>()
+    private val args by navArgs<RssFeedDetailsFragmentArgs>()
     private lateinit var adapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        feedViewModel.getRssFeeds()
+        feedViewModel.getRssFeedItems(args.rssFeed)
     }
 
     override fun itemClicked(item: CommonRssAttributes) {
-        appBarViewModel.feedDetailsScreenOpened(item.name)
-        RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item as RssFeed).execute()
+        startActivity(
+            WebViewActivity.buildIntent(requireContext(), item as RssFeedItem)
+        )
     }
 
     private fun observeViewModel() {
-        feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
+        feedViewModel.getRssFeedItemsSuccess.observe(requireActivity()) { setUpFragment(it) }
     }
 
-    private fun setUpFragment(feeds: List<RssFeed>) {
-        adapter = ListAdapter(feeds).apply { setListener(this@RssFeedsFragment) }
+    private fun setUpFragment(items: List<RssFeedItem>) {
+        adapter = ListAdapter(items).apply { setListener(this@RssFeedDetailsFragment) }
         binding.recyclerView.adapter = adapter
     }
 }
