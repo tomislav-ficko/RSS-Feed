@@ -59,6 +59,8 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
+    // Other
+    implementation "com.jakewharton.timber:timber:4.7.1"
     implementation "com.pkmmte.pkrss:pkrss:1.0.1"
 
     // Testing
