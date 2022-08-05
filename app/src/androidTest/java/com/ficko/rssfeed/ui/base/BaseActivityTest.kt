@@ -74,10 +74,9 @@ abstract class BaseActivityTest : BaseMatchers {
         waitForUiThread()
     }
 
-    protected fun waitForUiThread(additionalSleepTime: Long = 0) {
+    protected fun waitForUiThread(additionalSleepTimeMillis: Long? = null) {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        if (additionalSleepTime > 0)
-            Thread.sleep(additionalSleepTime)
+        additionalSleepTimeMillis?.let { Thread.sleep(it) }
     }
 
     protected fun mockIntentCalls() {
