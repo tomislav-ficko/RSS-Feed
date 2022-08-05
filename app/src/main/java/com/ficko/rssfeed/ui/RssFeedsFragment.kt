@@ -24,6 +24,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+        binding.messageVisible = true
         feedViewModel.getRssFeeds()
     }
 
@@ -39,5 +40,6 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     private fun setUpFragment(feeds: List<RssFeed>) {
         adapter = ListAdapter(feeds).apply { setListener(this@RssFeedsFragment) }
         binding.recyclerView.adapter = adapter
+        binding.messageVisible = feeds.isEmpty()
     }
 }

@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="messageVisible"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +25,38 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3"
-            tools:listitem="@layout/rss_feed_view_holder" />
+            tools:listitem="@layout/list_view_holder" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_list_message_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibleIf="@{messageVisible}"
+            app:constraint_referenced_ids="empty_list_icon, empty_list_text" />
+
+        <ImageView
+            android:id="@+id/empty_list_icon"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/ic_empty"
+            app:layout_constraintBottom_toTopOf="@id/empty_list_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:tint="@color/grey" />
+
+        <TextView
+            android:id="@+id/empty_list_text"
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="60dp"
+            android:gravity="center"
+            android:text="@string/empty_list_text"
+            android:textColor="@color/grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/empty_list_icon"
+            tools:text="No RSS feeds available, please add a new one" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
