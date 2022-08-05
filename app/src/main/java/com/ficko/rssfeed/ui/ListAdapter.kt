@@ -19,7 +19,7 @@ class ListAdapter(
                 imageUrl = item.imageUrl
                 titleValue = item.name
                 descriptionValue = item.description
-                binding.root.setOnClickListener { listener?.itemClicked(item) }
+                binding.viewHolderContainer.setOnClickListener { listener?.itemClicked(item) }
             }
         }
     }
