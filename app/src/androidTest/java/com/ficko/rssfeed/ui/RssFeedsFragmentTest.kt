@@ -48,6 +48,15 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     }
 
     @Test
+    fun shouldDisplayEmptyListMessageWhenNoListItemsArePresent() {
+        // When
+        loadFragment<RssFeedsFragment>()
+
+        // Then
+        onView(withText(activityInstance.getString(R.string.empty_list_text))).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun shouldDisplayListItemsWhenFeedsDataIsReceived() {
         // Given
         loadFragment<RssFeedsFragment>()
