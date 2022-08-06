@@ -10,6 +10,7 @@ class RssFeedDto {
     @PrimaryKey
     var id = ""
 
+    var rssUrl = ""
     var url = ""
     var name = ""
     var description = ""

@@ -8,6 +8,7 @@ object RssFeedDtoMapper {
     fun mapRssFeedToDto(rssFeed: RssFeed): RssFeedDto {
         return RssFeedDto().apply {
             id = rssFeed.id
+            rssUrl = rssFeed.rssUrl
             url = rssFeed.url
             name = rssFeed.name
             description = rssFeed.description
@@ -19,6 +20,7 @@ object RssFeedDtoMapper {
     fun mapDtoToRssFeed(dto: RssFeedDto): RssFeed {
         return RssFeed().apply {
             id = dto.id
+            rssUrl = dto.rssUrl
             url = dto.url
             name = dto.name
             description = dto.description

@@ -14,6 +14,7 @@ class RssFeedDtoMapperTest {
         // Given
         val feed = RssFeed().apply {
             id = "feed_id"
+            rssUrl = "rss_url"
             url = "url"
             name = "name"
             description = "description"
@@ -26,6 +27,7 @@ class RssFeedDtoMapperTest {
 
         // Then
         feedDto.id shouldBe feed.id
+        feedDto.rssUrl shouldBe feed.rssUrl
         feedDto.url shouldBe feed.url
         feedDto.name shouldBe feed.name
         feedDto.description shouldBe feed.description
@@ -38,6 +40,7 @@ class RssFeedDtoMapperTest {
         // Given
         val feedDto = RssFeedDto().apply {
             id = "feed_id"
+            rssUrl = "rss_url"
             url = "url"
             name = "name"
             description = "description"
@@ -50,6 +53,7 @@ class RssFeedDtoMapperTest {
 
         // Then
         feedDto.id shouldBe feed.id
+        feedDto.rssUrl shouldBe feed.rssUrl
         feedDto.url shouldBe feed.url
         feedDto.name shouldBe feed.name
         feedDto.description shouldBe feed.description
@@ -60,86 +64,30 @@ class RssFeedDtoMapperTest {
     @Test
     fun shouldMapRssFeedsToDtoList() {
         // Given
-        val feedOne = RssFeed().apply {
-            id = "feed_id"
-            url = "url"
-            name = "name"
-            description = "description"
-            imageUrl = "image_url"
-            items = listOf(RssFeedItem().apply { id = "item_id" })
-        }
-        val feedTwo = RssFeed().apply {
-            id = "feed_id"
-            url = "url"
-            name = "name"
-            description = "description"
-            imageUrl = "image_url"
-            items = listOf(RssFeedItem().apply { id = "item_id" })
-        }
+        val feedOne = RssFeed().apply { id = "feed_id" }
+        val feedTwo = RssFeed().apply { id = "feed_id" }
         val feeds = listOf(feedOne, feedTwo)
 
         // When
         val dtoList = RssFeedDtoMapper.mapRssFeedsToDtoList(feeds)
 
         // Then
-        with(dtoList[0]) {
-            id shouldBe feedOne.id
-            url shouldBe feedOne.url
-            name shouldBe feedOne.name
-            description shouldBe feedOne.description
-            imageUrl shouldBe feedOne.imageUrl
-            items[0].id shouldBe feedOne.items[0].id
-        }
-        with(dtoList[1]) {
-            id shouldBe feedTwo.id
-            url shouldBe feedTwo.url
-            name shouldBe feedTwo.name
-            description shouldBe feedTwo.description
-            imageUrl shouldBe feedTwo.imageUrl
-            items[0].id shouldBe feedTwo.items[0].id
-        }
+        dtoList[0].id shouldBe feedOne.id
+        dtoList[1].id shouldBe feedTwo.id
     }
 
     @Test
     fun shouldMapDtoListToRssFeeds() {
         // Given
-        val feedDtoOne = RssFeedDto().apply {
-            id = "feed_id"
-            url = "url"
-            name = "name"
-            description = "description"
-            imageUrl = "image_url"
-            items = listOf(RssFeedItem().apply { id = "item_id" })
-        }
-        val feedDtoTwo = RssFeedDto().apply {
-            id = "feed_id"
-            url = "url"
-            name = "name"
-            description = "description"
-            imageUrl = "image_url"
-            items = listOf(RssFeedItem().apply { id = "item_id" })
-        }
+        val feedDtoOne = RssFeedDto().apply { id = "feed_id" }
+        val feedDtoTwo = RssFeedDto().apply { id = "feed_id" }
         val dtoList = listOf(feedDtoOne, feedDtoTwo)
 
         // When
         val feeds = RssFeedDtoMapper.mapDtoListToRssFeeds(dtoList)
 
         // Then
-        with(feeds[0]) {
-            id shouldBe feedDtoOne.id
-            url shouldBe feedDtoOne.url
-            name shouldBe feedDtoOne.name
-            description shouldBe feedDtoOne.description
-            imageUrl shouldBe feedDtoOne.imageUrl
-            items[0].id shouldBe feedDtoOne.items[0].id
-        }
-        with(feeds[1]) {
-            id shouldBe feedDtoTwo.id
-            url shouldBe feedDtoTwo.url
-            name shouldBe feedDtoTwo.name
-            description shouldBe feedDtoTwo.description
-            imageUrl shouldBe feedDtoTwo.imageUrl
-            items[0].id shouldBe feedDtoTwo.items[0].id
-        }
+        feeds[0].id shouldBe feedDtoOne.id
+        feeds[1].id shouldBe feedDtoTwo.id
     }
 }
