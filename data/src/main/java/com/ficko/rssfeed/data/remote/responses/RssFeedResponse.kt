@@ -39,6 +39,6 @@ data class RssFeedItemResponse constructor(
     var link: String? = null,
 
     @field:Attribute(name = "url", required = false)
-    @field:Path("media:group/media:content[0]")
+    @field:Path("media:group/media:content")
     var imageUrl: String? = null
 )
