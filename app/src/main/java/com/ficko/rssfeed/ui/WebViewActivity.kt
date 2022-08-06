@@ -17,15 +17,16 @@ class WebViewActivity : BaseActivity(),
     companion object {
         private const val ITEM_KEY = "rss_feed_item"
         fun buildIntent(context: Context, item: RssFeedItem) =
-            Intent(context, WebViewActivity::class.java)
-                .apply { putExtra(ITEM_KEY, item) }
+            Intent(context, WebViewActivity::class.java).apply {
+                putExtra(ITEM_KEY, item)
+            }
     }
 
     private val binding by lazy { WebViewActivityBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setUpActivity() // TODO item data inside intent is being lost
+        setUpActivity()
     }
 
     override fun backButtonClicked() {
