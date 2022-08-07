@@ -38,6 +38,9 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
             Utils.showSuccessNotification(requireContext(), layoutInflater, message)
             navigateToPreviousFragment()
         }
+        feedViewModel.anyUseCaseFailure.observe(viewLifecycleOwner) {
+            Utils.showToast(requireActivity(), R.string.failure_toast)
+        }
     }
 
     private fun setUpFragment() {

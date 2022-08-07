@@ -8,5 +8,6 @@
     <string name="input_hint">Please enter the desired URL</string>
     <string name="button_text">Subscribe</string>
     <string name="success_toast">Successfully subscribed to RSS feed</string>
+    <string name="failure_toast">Something went wrong while adding the feed</string>
     <string name="empty_list_text">No RSS feeds available, please add a new one</string>
 </resources>

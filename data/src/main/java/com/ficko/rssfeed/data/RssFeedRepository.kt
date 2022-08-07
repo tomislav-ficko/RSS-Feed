@@ -23,9 +23,9 @@ class RssFeedRepository @Inject constructor(
     }
 
     suspend fun addNewFeed(rssUrl: String) {
-        val dto = RssFeedDtoMapper.mapRssFeedToDto(
-            RssFeed().apply { this.rssUrl = rssUrl }
-        )
+        val response = api.getRssFeed(rssUrl)
+        val model = RssFeedsMapper.mapRssFeedResponseToRssFeed(response).apply { this.rssUrl = rssUrl }
+        val dto = RssFeedDtoMapper.mapRssFeedToDto(model)
         dao.insert(dto)
     }
 
