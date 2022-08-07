@@ -18,10 +18,7 @@ class RssFeedRepository @Inject constructor(
 
     suspend fun updateRssFeeds() {
         val currentFeeds = RssFeedDtoMapper.mapDtoListToRssFeeds(dao.getAll())
-        val updatedFeeds = currentFeeds.map {
-            val response = api.getRssFeed(it.rssUrl)
-            RssFeedsMapper.mapRssFeedResponseToRssFeed(response).apply { rssUrl = it.rssUrl }
-        }
+        val updatedFeeds = getUpdatedFeedData(currentFeeds)
         insertIntoDb(updatedFeeds)
     }
 
@@ -32,8 +29,16 @@ class RssFeedRepository @Inject constructor(
         dao.insert(dto)
     }
 
+    private suspend fun getUpdatedFeedData(currentFeeds: List<RssFeed>): List<RssFeed> {
+        return currentFeeds.map {
+            val response = api.getRssFeed(it.rssUrl)
+            RssFeedsMapper.mapRssFeedResponseToRssFeed(response).apply { rssUrl = it.rssUrl }
+        }
+    }
+
     private suspend fun insertIntoDb(models: List<RssFeed>) {
         val dtoList = RssFeedDtoMapper.mapRssFeedsToDtoList(models).toTypedArray()
+        dao.deleteAll()
         dao.insert(*dtoList)
     }
 }
