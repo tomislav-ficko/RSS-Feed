@@ -34,12 +34,12 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
 
     private fun observeViewModel() {
         feedViewModel.addNewFeedSuccess.observe(viewLifecycleOwner) {
-            val message = requireContext().getString(R.string.success_toast)
+            val message = requireContext().getString(R.string.new_feed_success_toast)
             Utils.showSuccessNotification(requireContext(), layoutInflater, message)
             navigateToPreviousFragment()
         }
         feedViewModel.anyUseCaseFailure.observe(viewLifecycleOwner) {
-            Utils.showToast(requireActivity(), R.string.failure_toast)
+            Utils.showToast(requireActivity(), R.string.new_feed_failure_toast)
         }
     }
 
