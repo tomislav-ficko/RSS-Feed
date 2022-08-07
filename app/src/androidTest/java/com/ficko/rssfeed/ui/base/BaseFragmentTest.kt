@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -32,6 +33,8 @@ abstract class BaseFragmentTest {
     var hiltRule = HiltAndroidRule(this)
 
     lateinit var activityInstance: AppCompatActivity
+    protected val anyUseCaseInProgress = MutableLiveData<Boolean>()
+    protected val anyUseCaseFailed = MutableLiveData<Throwable>()
 
     @MockK
     protected lateinit var navController: NavController
