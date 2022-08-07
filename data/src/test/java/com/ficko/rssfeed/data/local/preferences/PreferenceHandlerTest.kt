@@ -20,26 +20,26 @@ class PreferenceHandlerTest {
     }
 
     @Test
-    fun shouldPutValue() {
+    fun shouldPutFavoriteFeedUrls() {
         // Given
-        val value = "value"
+        val url = "url"
 
         // When
-        PreferenceHandler.putValue(value)
+        PreferenceHandler.putFavoriteFeedUrls(setOf(url))
 
         // Then
-        PreferenceHandler.getValue() shouldBe value
+        PreferenceHandler.getFavoriteFeedUrls().first() shouldBe url
     }
 
     @Test
     fun shouldClearAll() {
         // Given
-        PreferenceHandler.putValue("value")
+        PreferenceHandler.putFavoriteFeedUrls(setOf("url"))
 
         // When
         PreferenceHandler.clearAll()
 
         // Then
-        PreferenceHandler.getValue() shouldBe null
+        PreferenceHandler.getFavoriteFeedUrls().size shouldBe 0
     }
 }

@@ -1,6 +1,7 @@
 package com.ficko.rssfeed.vm
 
 import com.ficko.rssfeed.data.RssFeedRepository
+import com.ficko.rssfeed.data.local.preferences.PreferenceHandler
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.domain.RssFeedItem
 import io.kotest.matchers.shouldBe
@@ -32,6 +33,21 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         coVerify(exactly = 1) { repository.updateRssFeeds() }
         coVerify(exactly = 1) { repository.getRssFeeds() }
         viewModel.getRssFeedsSuccess.value shouldBe feeds
+    }
+
+    @Test
+    fun shouldGetFavoriteRssFeeds() {
+        // Given
+        val feed = RssFeed().apply { rssUrl = "url" }
+        coEvery { repository.getRssFeeds() } returns listOf(feed)
+        PreferenceHandler.putFavoriteFeedUrls(setOf(feed.rssUrl))
+
+        // When
+        viewModel.getFavoriteRssFeeds()
+
+        // Then
+        viewModel.getFavoriteRssFeedsSuccess.value?.size shouldBe 1
+        viewModel.getFavoriteRssFeedsSuccess.value?.first() shouldBe feed
     }
 
     @Test
@@ -77,5 +93,33 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         // Then
         coVerify(exactly = 1) { repository.getRssFeeds() }
         viewModel.feedExists.value shouldBe Unit
+    }
+
+    @Test
+    fun shouldAddFeedToFavorites() {
+        // Given
+        val feed = RssFeed().apply { rssUrl = "url" }
+
+        // When
+        viewModel.addFeedToFavorites(feed)
+
+        // Then
+        viewModel.addFeedToFavoritesSuccess.value shouldBe Unit
+        PreferenceHandler.getFavoriteFeedUrls().size shouldBe 1
+        PreferenceHandler.getFavoriteFeedUrls().first() shouldBe feed.rssUrl
+    }
+
+    @Test
+    fun shouldRemoveFeedFromFavorites() {
+        // Given
+        val feed = RssFeed().apply { rssUrl = "url" }
+        PreferenceHandler.putFavoriteFeedUrls(setOf(feed.rssUrl))
+
+        // When
+        viewModel.removeFeedFromFavorites(feed)
+
+        // Then
+        viewModel.removeFeedFromFavoritesSuccess.value shouldBe Unit
+        PreferenceHandler.getFavoriteFeedUrls().size shouldBe 0
     }
 }

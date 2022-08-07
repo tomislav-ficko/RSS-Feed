@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.RssFeedsFragmentBinding
 import com.ficko.rssfeed.domain.CommonRssAttributes
@@ -20,12 +21,14 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
     private val appBarViewModel by activityViewModels<AppBarViewModel>()
+    private val args by navArgs<RssFeedsFragmentArgs>()
     private lateinit var adapter: ListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        feedViewModel.getRssFeeds()
+        if (args.shouldDisplayFavorites) feedViewModel.getFavoriteRssFeeds()
+        else feedViewModel.getRssFeeds()
     }
 
     override fun itemClicked(item: CommonRssAttributes) {
@@ -35,12 +38,19 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
 
     private fun observeViewModel() {
         feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
+        feedViewModel.getFavoriteRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
         feedViewModel.anyUseCaseInProgress.observe(requireActivity()) { binding.progressBarVisible = it }
     }
 
     private fun setUpFragment(feeds: List<RssFeed>) {
         adapter = ListAdapter(feeds).apply { setListener(this@RssFeedsFragment) }
-        binding.recyclerView.adapter = adapter
-        binding.messageVisible = feeds.isEmpty()
+        binding.apply {
+            recyclerView.adapter = adapter
+            emptyListText.text = getString(
+                if (args.shouldDisplayFavorites) R.string.empty_favorites_list_text
+                else R.string.empty_list_text
+            )
+            messageVisible = feeds.isEmpty()
+        }
     }
 }
