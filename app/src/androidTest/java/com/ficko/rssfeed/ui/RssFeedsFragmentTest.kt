@@ -135,6 +135,6 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
         onView(withText(feeds[0].name)).perform(click())
 
         // Then
-        verify(exactly = 1) { appBarViewModel.feedDetailsScreenOpened(feeds[0].name) }
+        verify(exactly = 1) { appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.DETAILS, feeds[0].name) }
     }
 }

@@ -13,6 +13,8 @@ import com.ficko.rssfeed.ui.base.BaseActivity
 import com.ficko.rssfeed.ui.common.AppBar
 import com.ficko.rssfeed.ui.common.Utils
 import com.ficko.rssfeed.vm.AppBarViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel.FragmentType
+import com.ficko.rssfeed.vm.AppBarViewModel.TabType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,12 +41,12 @@ class MainActivity : BaseActivity(),
     override fun onBackPressed() {
         if (favoritesTabSelected() && !favoritesRootVisible()) {
             favoritesNavController.navigateUp()
-            displayAppBarForFeedsScreen()
+            appBarViewModel.activeFragmentChanged(FragmentType.FEEDS)
         } else if (favoritesTabSelected() && favoritesRootVisible()) {
             selectFeedsTab()
         } else if (feedsTabSelected() && !feedsRootVisible()) {
             feedsNavController.navigateUp()
-            displayAppBarForFeedsScreen()
+            appBarViewModel.activeFragmentChanged(FragmentType.FEEDS)
         } else if (feedsTabSelected() && !appClosable) {
             appClosable = true
             Utils.showToast(this, R.string.back_button_notice)
@@ -55,7 +57,8 @@ class MainActivity : BaseActivity(),
     }
 
     override fun addButtonClicked() {
-        showScreenForAddingNewFeed()
+        appBarViewModel.activeFragmentChanged(FragmentType.NEW_FEED)
+        RssFeedsFragmentDirections.actionFeedsDestinationToNewFeedFragment().execute()
     }
 
     override fun backButtonClicked() {
@@ -63,8 +66,9 @@ class MainActivity : BaseActivity(),
     }
 
     private fun observeViewModel() {
-        appBarViewModel.feedDetailsOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
-        appBarViewModel.returningToPreviousScreen.observe(this) { displayAppBarForFeedsScreen() }
+        appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen() }
+        appBarViewModel.feedDetailsScreenOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
+        appBarViewModel.addNewFeedScreenOpen.observe(this){displayAppBarForAddNewFeedScreen()}
     }
 
     private fun setUpActivity() {
@@ -75,29 +79,30 @@ class MainActivity : BaseActivity(),
     private fun setUpBottomNavBar() {
         binding.activeTabIndex = 0
         binding.bottomNavBar.setOnNavigationItemSelectedListener { selectedTab ->
-            updateActiveTabIndex(selectedTab.itemId)
+            updateActiveTab(selectedTab.itemId)
             true
         }
         setUpTabColors()
-    }
-
-    private fun showScreenForAddingNewFeed() {
-        displayAppBarForAddNewFeedScreen()
-        RssFeedsFragmentDirections.actionFeedsDestinationToNewFeedFragment().execute()
     }
 
     private fun feedsTabSelected() = binding.activeTabIndex == 0
 
     private fun favoritesTabSelected() = binding.activeTabIndex == 1
     private fun feedsRootVisible() = feedsNavController.currentDestination?.id == R.id.feeds_destination
-    private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.favorites_destination
+    private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.feeds_destination
     private fun selectFeedsTab() {
         binding.bottomNavBar.selectedItemId = R.id.feeds_tab
         binding.activeTabIndex = 0
     }
 
-    private fun updateActiveTabIndex(activeItemId: Int) {
-        binding.activeTabIndex = if (activeItemId == R.id.feeds_tab) 0 else 1
+    private fun updateActiveTab(activeItemId: Int) {
+        if (activeItemId == R.id.feeds_tab) {
+            binding.activeTabIndex = 0
+            appBarViewModel.activeTabChanged(TabType.FEEDS)
+        } else {
+            binding.activeTabIndex = 1
+            appBarViewModel.activeTabChanged(TabType.FAVORITES)
+        }
     }
 
     private fun displayAppBarForFeedsScreen() = updateAppBar(addButtonEnabled = true, title = "")

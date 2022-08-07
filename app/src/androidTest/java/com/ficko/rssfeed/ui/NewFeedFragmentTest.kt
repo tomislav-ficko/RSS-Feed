@@ -139,6 +139,6 @@ class NewFeedFragmentTest : BaseFragmentTest() {
         feedViewModel.addNewFeedSuccess.postValue(Unit)
 
         // Then
-        verify(exactly = 1) { appBarViewModel.returningToPreviousScreen() }
+        verify(exactly = 1) { appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS) }
     }
 }

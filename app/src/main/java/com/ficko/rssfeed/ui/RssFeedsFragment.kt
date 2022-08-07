@@ -10,6 +10,7 @@ import com.ficko.rssfeed.domain.CommonRssAttributes
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.ui.base.BaseFragment
 import com.ficko.rssfeed.vm.AppBarViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel.FragmentType
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     }
 
     override fun itemClicked(item: CommonRssAttributes) {
-        appBarViewModel.feedDetailsScreenOpened(item.name)
+        appBarViewModel.activeFragmentChanged(FragmentType.DETAILS, item.name)
         RssFeedsFragmentDirections.actionFeedsDestinationToFeedDetailsDestination(item as RssFeed).execute()
     }
 

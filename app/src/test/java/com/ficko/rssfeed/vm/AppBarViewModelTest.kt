@@ -10,23 +10,43 @@ class AppBarViewModelTest : BaseViewModelTest() {
     private lateinit var viewModel: AppBarViewModel
 
     @Test
-    fun shouldNotifyAboutDetailsScreenOpened() {
-        // Given
-        val feedName = "name"
-
+    fun shouldTriggerLiveDataWhenActiveTabIsChangedAndCurrentFragmentIsFeeds() {
         // When
-        viewModel.feedDetailsScreenOpened(feedName)
+        viewModel.activeTabChanged(AppBarViewModel.TabType.FAVORITES)
 
         // Then
-        viewModel.feedDetailsOpen.value shouldBe feedName
+        viewModel.feedsScreenOpen.value shouldBe Unit
     }
 
     @Test
-    fun shouldNotifyAboutReturningToPreviousScreen() {
+    fun shouldTriggerLiveDataAndReturnPreviousDetailsTitleWhenReturningToPreviousTab() {
+        // Given
+        val feedName = "name"
+        viewModel.activeFragmentChanged(AppBarViewModel.FragmentType.DETAILS, feedName)
+        viewModel.activeTabChanged(AppBarViewModel.TabType.FAVORITES)
+
         // When
-        viewModel.returningToPreviousScreen()
+        viewModel.activeTabChanged(AppBarViewModel.TabType.FEEDS)
 
         // Then
-        viewModel.returningToPreviousScreen.value shouldBe Unit
+        viewModel.feedDetailsScreenOpen.value shouldBe feedName
+    }
+
+    @Test
+    fun shouldTriggerLiveDataWhenFeedsScreenBecomesActive() {
+        // When
+        viewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS)
+
+        // Then
+        viewModel.feedsScreenOpen.value shouldBe Unit
+    }
+
+    @Test
+    fun shouldTriggerLiveDataWhenAddNewFeedScreenBecomesActive() {
+        // When
+        viewModel.activeFragmentChanged(AppBarViewModel.FragmentType.NEW_FEED)
+
+        // Then
+        viewModel.addNewFeedScreenOpen.value shouldBe Unit
     }
 }
