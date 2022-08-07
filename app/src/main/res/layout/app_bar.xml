@@ -18,6 +18,10 @@
             type="String" />
 
         <variable
+            name="favoriteButtonEnabled"
+            type="Boolean" />
+
+        <variable
             name="addButtonEnabled"
             type="Boolean" />
     </data>
@@ -56,10 +60,20 @@
             android:text="@{titleValue}"
             android:visibleIf="@{title != null}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/add_button"
+            app:layout_constraintEnd_toStartOf="@id/favorite_button"
             app:layout_constraintStart_toEndOf="@id/guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Add new RSS feed" />
+
+        <ImageView
+            android:id="@+id/favorite_button"
+            style="@style/AppBarIcons"
+            android:onClick="@{() -> view.favoriteButtonClicked()}"
+            android:src="@drawable/ic_favorite"
+            android:visibleIf="@{favoriteButtonEnabled}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/add_button"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/add_button"

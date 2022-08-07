@@ -65,6 +65,8 @@ class MainActivity : BaseActivity(),
         onBackPressed()
     }
 
+    override fun favoriteButtonClicked() {}
+
     private fun observeViewModel() {
         appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen(it) }
         appBarViewModel.feedDetailsScreenOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
@@ -107,15 +109,19 @@ class MainActivity : BaseActivity(),
 
     private fun displayAppBarForFeedsScreen(shouldDisplayAddButton: Boolean) =
         updateAppBar(addButtonEnabled = shouldDisplayAddButton, title = "")
-    
-    private fun displayAppBarForAddNewFeedScreen() = updateAppBar(backButtonEnabled = true, title = getString(R.string.title_add_new_feed))
-    private fun displayAppBarForFeedDetailsScreen(feedName: String) = updateAppBar(backButtonEnabled = true, title = feedName)
+
+    private fun displayAppBarForAddNewFeedScreen() =
+        updateAppBar(backButtonEnabled = true, title = getString(R.string.title_add_new_feed))
+
+    private fun displayAppBarForFeedDetailsScreen(feedName: String) =
+        updateAppBar(backButtonEnabled = true, title = feedName, favoriteButtonEnabled = true)
 
     private fun updateAppBar(
         backButtonEnabled: Boolean = false,
         title: String,
+        favoriteButtonEnabled: Boolean = false,
         addButtonEnabled: Boolean = false
-    ) = binding.appBar.updateView(backButtonEnabled, title, addButtonEnabled)
+    ) = binding.appBar.updateView(backButtonEnabled, title, favoriteButtonEnabled, addButtonEnabled)
 
     private fun setUpTabColors() {
         val stateUnchecked = intArrayOf(-android.R.attr.state_checked)

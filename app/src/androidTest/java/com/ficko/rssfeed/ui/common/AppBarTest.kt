@@ -63,6 +63,16 @@ class AppBarTest : BaseViewTest() {
     }
 
     @Test
+    fun shouldShowFavoriteButtonWhenEnabled() {
+        // When
+        appBar.updateView(favoriteButtonEnabled = true)
+
+        // Then
+        waitForUiThread(200)
+        onView(withId(R.id.favorite_button)).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun shouldFireCallbackWhenBackButtonIsClickedAndListenerIsSet() {
         // Given
         appBar.setListener(listener)
@@ -88,5 +98,19 @@ class AppBarTest : BaseViewTest() {
 
         // Then
         verify(exactly = 1) { listener.addButtonClicked() }
+    }
+
+    @Test
+    fun shouldFireCallbackWhenFavoriteButtonIsClickedAndListenerIsSet() {
+        // Given
+        appBar.setListener(listener)
+        appBar.updateView(favoriteButtonEnabled = true)
+        waitForUiThread(200)
+
+        // When
+        onView(withId(R.id.favorite_button)).perform(click())
+
+        // Then
+        verify(exactly = 1) { listener.favoriteButtonClicked() }
     }
 }
