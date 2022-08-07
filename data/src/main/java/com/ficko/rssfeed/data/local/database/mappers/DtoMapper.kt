@@ -3,7 +3,7 @@ package com.ficko.rssfeed.data.local.database.mappers
 import com.ficko.rssfeed.data.local.database.dto.RssFeedDto
 import com.ficko.rssfeed.domain.RssFeed
 
-object RssFeedDtoMapper {
+object DtoMapper {
 
     fun mapRssFeedToDto(rssFeed: RssFeed): RssFeedDto {
         return RssFeedDto(

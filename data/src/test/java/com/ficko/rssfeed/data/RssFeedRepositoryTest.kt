@@ -2,7 +2,7 @@ package com.ficko.rssfeed.data
 
 import com.ficko.rssfeed.data.local.database.dao.RssFeedDao
 import com.ficko.rssfeed.data.local.database.dto.RssFeedDto
-import com.ficko.rssfeed.data.local.database.mappers.RssFeedDtoMapper
+import com.ficko.rssfeed.data.local.database.mappers.DtoMapper
 import com.ficko.rssfeed.data.remote.apis.RssFeedApi
 import com.ficko.rssfeed.data.remote.responses.RssFeedItemResponse
 import com.ficko.rssfeed.data.remote.responses.RssFeedResponse
@@ -39,7 +39,7 @@ class RssFeedRepositoryTest {
         // Given
         val dto = getSampleFeedDto()
         val dtoList = listOf(dto)
-        val expectedResult = RssFeedDtoMapper.mapDtoToRssFeed(dto)
+        val expectedResult = DtoMapper.mapDtoToRssFeed(dto)
         coEvery { dao.getAll() } returns dtoList
 
         // When

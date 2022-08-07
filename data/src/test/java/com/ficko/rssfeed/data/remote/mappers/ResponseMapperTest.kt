@@ -5,10 +5,10 @@ import com.ficko.rssfeed.data.remote.responses.RssFeedResponse
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
-class RssFeedsMapperTest {
+class ResponseMapperTest {
 
     @Test
-    fun shouldMapRssFeedsResponseToRssFeed() {
+    fun shouldMapRssFeedResponseToRssFeed() {
         // Given
         val input = RssFeedResponse().apply {
             title = "feed title"
@@ -26,7 +26,7 @@ class RssFeedsMapperTest {
         }
 
         // When
-        val result = RssFeedsMapper.mapRssFeedResponseToRssFeed(input)
+        val result = ResponseMapper.mapRssFeedResponseToRssFeed(input)
 
         // Then
         with(result) {

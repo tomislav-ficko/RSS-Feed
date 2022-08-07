@@ -6,8 +6,7 @@ import com.ficko.rssfeed.domain.RssFeedItem
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 
-
-class RssFeedDtoMapperTest {
+class DtoMapperTest {
 
     @Test
     fun shouldMapRssFeedToDto() {
@@ -23,7 +22,7 @@ class RssFeedDtoMapperTest {
         }
 
         // When
-        val feedDto = RssFeedDtoMapper.mapRssFeedToDto(feed)
+        val feedDto = DtoMapper.mapRssFeedToDto(feed)
 
         // Then
         feedDto.id shouldBe feed.id.toInt()
@@ -41,7 +40,7 @@ class RssFeedDtoMapperTest {
         val feedDto = getSampleFeedDto(1)
 
         // When
-        val feed = RssFeedDtoMapper.mapDtoToRssFeed(feedDto)
+        val feed = DtoMapper.mapDtoToRssFeed(feedDto)
 
         // Then
         feed.id shouldBe feedDto.id.toString()
@@ -61,7 +60,7 @@ class RssFeedDtoMapperTest {
         val feeds = listOf(feedOne, feedTwo)
 
         // When
-        val dtoList = RssFeedDtoMapper.mapRssFeedsToDtoList(feeds)
+        val dtoList = DtoMapper.mapRssFeedsToDtoList(feeds)
 
         // Then
         dtoList[0].id shouldBe feedOne.id.toInt()
@@ -76,7 +75,7 @@ class RssFeedDtoMapperTest {
         val dtoList = listOf(feedDtoOne, feedDtoTwo)
 
         // When
-        val feeds = RssFeedDtoMapper.mapDtoListToRssFeeds(dtoList)
+        val feeds = DtoMapper.mapDtoListToRssFeeds(dtoList)
 
         // Then
         feeds[0].id shouldBe feedDtoOne.id.toString()

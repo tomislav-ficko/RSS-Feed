@@ -4,7 +4,7 @@ import com.ficko.rssfeed.data.remote.responses.RssFeedResponse
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.domain.RssFeedItem
 
-object RssFeedsMapper {
+object ResponseMapper {
 
     fun mapRssFeedResponseToRssFeed(response: RssFeedResponse): RssFeed {
         return RssFeed().apply {
