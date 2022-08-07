@@ -15,6 +15,7 @@ class RssFeedViewModel @Inject constructor(
     val getRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
     val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
     val addNewFeedSuccess = MutableLiveData<Unit>()
+    val feedExists = MutableLiveData<Unit>()
 
     fun getRssFeeds() {
         executeUseCase {
@@ -30,8 +31,13 @@ class RssFeedViewModel @Inject constructor(
 
     fun addNewFeed(url: String) {
         executeUseCase {
-            repository.addNewFeed(url)
-            addNewFeedSuccess.postValue(Unit)
+            val feedAlreadyExists = repository.getRssFeeds().any { it.rssUrl == url }
+            if (feedAlreadyExists)
+                feedExists.postValue(Unit)
+            else {
+                repository.addNewFeed(url)
+                addNewFeedSuccess.postValue(Unit)
+            }
         }
     }
 }
