@@ -1,6 +1,8 @@
 package com.ficko.rssfeed.domain
 
-abstract class CommonRssAttributes {
+import java.io.Serializable
+
+abstract class CommonRssAttributes : Serializable {
 
     var id = ""
     var url = ""

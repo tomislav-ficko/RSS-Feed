@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ficko.rssfeed.databinding.ListViewHolderBinding
 import com.ficko.rssfeed.domain.CommonRssAttributes
+import com.ficko.rssfeed.domain.RssFeedItem
 
 class ListAdapter(
     private val items: List<CommonRssAttributes>
@@ -37,12 +38,37 @@ class ListAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(items[position])
+        try {
+            holder.bind(items[position])
+        } catch (e: ClassCastException) {
+            convertFeedItemDeserializedAsMapToDomainModel(holder, position)
+        }
     }
 
     override fun getItemCount(): Int = items.size
 
     fun setListener(listener: ListViewHolderListener) {
         this.listener = listener
+    }
+
+    private fun convertFeedItemDeserializedAsMapToDomainModel(holder: ListViewHolder, position: Int) {
+        if (items[position] is Map<*, *>) {
+            val rssFeedItem = (items[position] as Map<String, String>).convertToRssFeedItem()
+            holder.bind(rssFeedItem)
+        }
+    }
+
+    private fun Map<String, String>.convertToRssFeedItem(): RssFeedItem {
+        return RssFeedItem().apply {
+            entries.map { attribute ->
+                when (attribute.key) {
+                    "id" -> id = attribute.value
+                    "name" -> name = attribute.value
+                    "description" -> description = attribute.value
+                    "url" -> url = attribute.value
+                    "imageUrl" -> imageUrl = attribute.value
+                }
+            }
+        }
     }
 }

@@ -34,10 +34,12 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
 
     private fun observeViewModel() {
         feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
+        feedViewModel.anyUseCaseInProgress.observe(requireActivity()) { binding.progressBarVisible = it }
     }
 
     private fun setUpFragment(feeds: List<RssFeed>) {
         adapter = ListAdapter(feeds).apply { setListener(this@RssFeedsFragment) }
         binding.recyclerView.adapter = adapter
+        binding.messageVisible = feeds.isEmpty()
     }
 }

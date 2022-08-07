@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -20,6 +21,7 @@ abstract class BaseViewModel : ViewModel() {
                 inProgress?.let { it(true) } ?: postGenericProgress(true)
                 useCase()
             } catch (e: Throwable) {
+                Timber.d(e)
                 onFailure?.let { it(e) } ?: postGenericFailure(e)
             } finally {
                 inProgress?.let { it(false) } ?: postGenericProgress(false)

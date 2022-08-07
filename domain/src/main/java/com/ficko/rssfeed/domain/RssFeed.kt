@@ -1,7 +1,6 @@
 package com.ficko.rssfeed.domain
 
-import java.io.Serializable
-
-class RssFeed : CommonRssAttributes(), Serializable {
+class RssFeed : CommonRssAttributes() {
+    var rssUrl: String = ""
     var items: List<RssFeedItem> = listOf()
 }

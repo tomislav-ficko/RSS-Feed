@@ -1,5 +1,6 @@
 package com.ficko.rssfeed.di
 
+import com.ficko.rssfeed.data.RssFeedRepository
 import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.Module
@@ -12,7 +13,7 @@ import dagger.hilt.android.components.ActivityComponent
 class ViewModelModule {
 
     @Provides
-    fun provideRssFeedViewModel() = RssFeedViewModel()
+    fun provideRssFeedViewModel(repository: RssFeedRepository) = RssFeedViewModel(repository)
 
     @Provides
     fun provideAppBarViewModel() = AppBarViewModel()

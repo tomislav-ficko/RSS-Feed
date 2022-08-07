@@ -5,14 +5,15 @@ import androidx.room.PrimaryKey
 import com.ficko.rssfeed.domain.RssFeedItem
 
 @Entity(tableName = "feeds")
-class RssFeedDto {
+data class RssFeedDto(
 
-    @PrimaryKey
-    var id = ""
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
 
-    var url = ""
-    var name = ""
-    var description = ""
-    var imageUrl = ""
-    var items: List<RssFeedItem> = listOf()
-}
+    val rssUrl: String,
+    var url: String?,
+    var name: String?,
+    var description: String?,
+    var imageUrl: String?,
+    var items: List<RssFeedItem>?
+)

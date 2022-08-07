@@ -15,6 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Test
 
@@ -34,6 +35,7 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     @Before
     override fun setUp() {
         super.setUp()
+        every { feedViewModel.anyUseCaseInProgress } returns anyUseCaseInProgress
         every { feedViewModel.getRssFeedsSuccess } returns getRssFeedsSuccess
         every { feedViewModel.getRssFeeds() } returns Unit
     }
@@ -45,6 +47,46 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
 
         // Then
         verify(exactly = 1) { feedViewModel.getRssFeeds() }
+    }
+
+    @Test
+    fun shouldDisplayProgressBarWhenAnyUseCaseIsInProgress() {
+        // Given
+        loadFragment<RssFeedsFragment>()
+        anyUseCaseInProgress.postValue(false)
+
+        // When
+        anyUseCaseInProgress.postValue(true)
+
+        // Then
+        waitForUiThread(100)
+        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shouldHideProgressBarWhenNoUseCaseIsInProgress() {
+        // Given
+        loadFragment<RssFeedsFragment>()
+        anyUseCaseInProgress.postValue(true)
+
+        // When
+        anyUseCaseInProgress.postValue(false)
+
+        // Then
+        waitForUiThread(100)
+        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun shouldDisplayEmptyListMessageWhenNoListItemsArePresent() {
+        // Given
+        loadFragment<RssFeedsFragment>()
+
+        // When
+        getRssFeedsSuccess.postValue(listOf())
+
+        // Then
+        onView(withText(activityInstance.getString(R.string.empty_list_text))).check(matches(isDisplayed()))
     }
 
     @Test
