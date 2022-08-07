@@ -66,9 +66,9 @@ class MainActivity : BaseActivity(),
     }
 
     private fun observeViewModel() {
-        appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen() }
+        appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen(it) }
         appBarViewModel.feedDetailsScreenOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
-        appBarViewModel.addNewFeedScreenOpen.observe(this){displayAppBarForAddNewFeedScreen()}
+        appBarViewModel.addNewFeedScreenOpen.observe(this) { displayAppBarForAddNewFeedScreen() }
     }
 
     private fun setUpActivity() {
@@ -105,7 +105,9 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun displayAppBarForFeedsScreen() = updateAppBar(addButtonEnabled = true, title = "")
+    private fun displayAppBarForFeedsScreen(shouldDisplayAddButton: Boolean) =
+        updateAppBar(addButtonEnabled = shouldDisplayAddButton, title = "")
+    
     private fun displayAppBarForAddNewFeedScreen() = updateAppBar(backButtonEnabled = true, title = getString(R.string.title_add_new_feed))
     private fun displayAppBarForFeedDetailsScreen(feedName: String) = updateAppBar(backButtonEnabled = true, title = feedName)
 

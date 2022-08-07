@@ -10,7 +10,7 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
     enum class TabType { FEEDS, FAVORITES }
     enum class FragmentType { FEEDS, DETAILS, NEW_FEED }
 
-    val feedsScreenOpen = MutableLiveData<Unit>()
+    val feedsScreenOpen = MutableLiveData<Boolean>()
     val feedDetailsScreenOpen = MutableLiveData<String>()
     val addNewFeedScreenOpen = MutableLiveData<Unit>()
 
@@ -51,13 +51,13 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
     private fun notifyAboutChangeToAppBar() {
         if (activeTab == TabType.FEEDS) {
             when (activeFragmentOnFeedsTab) {
-                FragmentType.FEEDS -> feedsScreenOpen.postValue(Unit)
+                FragmentType.FEEDS -> feedsScreenOpen.postValue(true)
                 FragmentType.DETAILS -> feedDetailsScreenOpen.postValue(lastDetailsScreenTitleForFeedsTab)
                 FragmentType.NEW_FEED -> addNewFeedScreenOpen.postValue(Unit)
             }
         } else {
             when (activeFragmentOnFavoritesTab) {
-                FragmentType.FEEDS -> feedsScreenOpen.postValue(Unit)
+                FragmentType.FEEDS -> feedsScreenOpen.postValue(false)
                 FragmentType.DETAILS -> feedDetailsScreenOpen.postValue(lastDetailsScreenTitleForFavoritesTab)
                 FragmentType.NEW_FEED -> addNewFeedScreenOpen.postValue(Unit)
             }

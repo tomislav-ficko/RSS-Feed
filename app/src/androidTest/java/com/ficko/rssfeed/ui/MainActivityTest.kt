@@ -39,15 +39,15 @@ class MainActivityTest : BaseActivityTest() {
 
     private val getRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
     private val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
-    private val returningToPreviousScreen = MutableLiveData<Unit>()
-    private val feedDetailsOpen = MutableLiveData<String>()
+    private val feedsScreenOpen = MutableLiveData<Boolean>()
+    private val feedDetailsScreenOpen = MutableLiveData<String>()
 
     @Before
     fun setUp() {
         every { feedViewModel.getRssFeedsSuccess } returns getRssFeedsSuccess
         every { feedViewModel.getRssFeedItemsSuccess } returns getRssFeedItemsSuccess
-        every { appBarViewModel.feedsScreenOpen } returns returningToPreviousScreen
-        every { appBarViewModel.feedDetailsScreenOpen } returns feedDetailsOpen
+        every { appBarViewModel.feedsScreenOpen } returns feedsScreenOpen
+        every { appBarViewModel.feedDetailsScreenOpen } returns feedDetailsScreenOpen
         launchActivity<MainActivity>()
     }
 
@@ -124,7 +124,7 @@ class MainActivityTest : BaseActivityTest() {
         onView(withId(R.id.feeds_tab)).perform(click())
 
         // When
-        appBarViewModel.feedsScreenOpen.postValue(Unit)
+        appBarViewModel.feedsScreenOpen.postValue(true)
 
         // Then
         waitForUiThread(300)
@@ -140,7 +140,7 @@ class MainActivityTest : BaseActivityTest() {
         onView(withId(R.id.favorites_tab)).perform(click())
 
         // When
-        appBarViewModel.feedsScreenOpen.postValue(Unit)
+        appBarViewModel.feedsScreenOpen.postValue(false)
 
         // Then
         waitForUiThread(300)

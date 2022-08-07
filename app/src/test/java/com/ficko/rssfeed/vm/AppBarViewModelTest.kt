@@ -10,12 +10,24 @@ class AppBarViewModelTest : BaseViewModelTest() {
     private lateinit var viewModel: AppBarViewModel
 
     @Test
-    fun shouldTriggerLiveDataWhenActiveTabIsChangedAndCurrentFragmentIsFeeds() {
+    fun shouldTriggerLiveDataWhenActiveTabIsChangedToFavoritesAndCurrentFragmentIsFeeds() {
         // When
         viewModel.activeTabChanged(AppBarViewModel.TabType.FAVORITES)
 
         // Then
-        viewModel.feedsScreenOpen.value shouldBe Unit
+        viewModel.feedsScreenOpen.value shouldBe false
+    }
+
+    @Test
+    fun shouldTriggerLiveDataWhenActiveTabIsChangedToFeedsAndCurrentFragmentIsFeeds() {
+        // Given
+        viewModel.activeTabChanged(AppBarViewModel.TabType.FAVORITES)
+
+        // When
+        viewModel.activeTabChanged(AppBarViewModel.TabType.FEEDS)
+
+        // Then
+        viewModel.feedsScreenOpen.value shouldBe true
     }
 
     @Test
@@ -38,7 +50,7 @@ class AppBarViewModelTest : BaseViewModelTest() {
         viewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS)
 
         // Then
-        viewModel.feedsScreenOpen.value shouldBe Unit
+        viewModel.feedsScreenOpen.value shouldBe true
     }
 
     @Test
