@@ -38,6 +38,19 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     }
 
     @Test
+    fun shouldUpdateCurrentlyOpenedRssFeedWhenFragmentIsLoaded() {
+        // Given
+        val feed = RssFeed()
+        val args = Bundle().apply { putSerializable("rssFeed", feed) }
+
+        // When
+        loadFragment<RssFeedDetailsFragment>(args)
+
+        // Then
+        verify(exactly = 1) { feedViewModel.updateCurrentlyOpenedRssFeed(feed) }
+    }
+
+    @Test
     fun shouldGetFeedItemsWhenFragmentIsLoaded() {
         // Given
         val feed = RssFeed()
@@ -83,6 +96,18 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
         // Then
         Intents.intended(hasComponent(WebViewActivity::class.java.name))
+    }
+
+    @Test
+    fun shouldUpdateCurrentlyOpenedRssFeedWhenFragmentIsClosing() {
+        // Given
+        loadFragment()
+
+        // When
+        navController.navigateUp() // TODO not triggering onStop function
+
+        // Then
+        verify(exactly = 1) { feedViewModel.updateCurrentlyOpenedRssFeed(null) }
     }
 
     private fun loadFragment() {

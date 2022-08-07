@@ -21,6 +21,8 @@ class RssFeedViewModel @Inject constructor(
     val removeFeedFromFavoritesSuccess = MutableLiveData<Unit>()
     val feedExists = MutableLiveData<Unit>()
 
+    private var currentlyOpenedRssFeed: RssFeed? = null
+
     fun getRssFeeds() {
         executeUseCase {
             repository.updateRssFeeds()
@@ -53,16 +55,28 @@ class RssFeedViewModel @Inject constructor(
         }
     }
 
-    fun addFeedToFavorites(feed: RssFeed) {
+    fun toggleFeedFavoriteStatus() {
+        currentlyOpenedRssFeed?.let { feed ->
+            val favorites = PreferenceHandler.getFavoriteFeedUrls()
+            if (favorites.contains(feed.rssUrl)) removeFeedFromFavorites()
+            else addFeedToFavorites()
+        }
+    }
+
+    private fun addFeedToFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls()
-        PreferenceHandler.putFavoriteFeedUrls(favorites + feed.rssUrl)
+        PreferenceHandler.putFavoriteFeedUrls(favorites + currentlyOpenedRssFeed!!.rssUrl)
         addFeedToFavoritesSuccess.postValue(Unit)
     }
 
-    fun removeFeedFromFavorites(feed: RssFeed) {
+    private fun removeFeedFromFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls().toMutableSet()
-        favorites.remove(feed.rssUrl)
+        favorites.remove(currentlyOpenedRssFeed!!.rssUrl)
         PreferenceHandler.putFavoriteFeedUrls(favorites)
         removeFeedFromFavoritesSuccess.postValue(Unit)
+    }
+
+    fun updateCurrentlyOpenedRssFeed(rssFeed: RssFeed?) {
+        currentlyOpenedRssFeed = rssFeed
     }
 }

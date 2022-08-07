@@ -91,6 +91,20 @@ class MainActivityTest : BaseActivityTest() {
     }
 
     @Test
+    fun shouldNotifyViewModelWhenFavoriteButtonIsClicked() {
+        // Given
+        openFeedDetailsFragment()
+        appBarViewModel.feedDetailsScreenOpen.postValue("")
+        waitForUiThread(300)
+
+        // When
+        onView(withId(R.id.favorite_button)).perform(click())
+
+        // Then
+        feedViewModel.toggleFeedFavoriteStatus()
+    }
+
+    @Test
     fun shouldNotifyViewModelAboutChangeWhenAddNewFeedButtonIsClicked() {
         // When
         onView(withId(R.id.add_button)).perform(click())

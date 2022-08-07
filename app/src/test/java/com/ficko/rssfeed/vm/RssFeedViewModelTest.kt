@@ -99,9 +99,10 @@ class RssFeedViewModelTest : BaseViewModelTest() {
     fun shouldAddFeedToFavorites() {
         // Given
         val feed = RssFeed().apply { rssUrl = "url" }
+        viewModel.updateCurrentlyOpenedRssFeed(feed)
 
         // When
-        viewModel.addFeedToFavorites(feed)
+        viewModel.toggleFeedFavoriteStatus()
 
         // Then
         viewModel.addFeedToFavoritesSuccess.value shouldBe Unit
@@ -114,9 +115,10 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         // Given
         val feed = RssFeed().apply { rssUrl = "url" }
         PreferenceHandler.putFavoriteFeedUrls(setOf(feed.rssUrl))
+        viewModel.updateCurrentlyOpenedRssFeed(feed)
 
         // When
-        viewModel.removeFeedFromFavorites(feed)
+        viewModel.toggleFeedFavoriteStatus()
 
         // Then
         viewModel.removeFeedFromFavoritesSuccess.value shouldBe Unit

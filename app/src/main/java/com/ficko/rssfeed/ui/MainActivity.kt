@@ -15,6 +15,7 @@ import com.ficko.rssfeed.ui.common.Utils
 import com.ficko.rssfeed.vm.AppBarViewModel
 import com.ficko.rssfeed.vm.AppBarViewModel.FragmentType
 import com.ficko.rssfeed.vm.AppBarViewModel.TabType
+import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,7 @@ class MainActivity : BaseActivity(),
     AppBar.AppBarListener {
 
     private val appBarViewModel by viewModels<AppBarViewModel>()
+    private val feedViewModel by viewModels<RssFeedViewModel>()
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
     private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
     private val favoritesNavController by lazy { findNavController(binding.favoritesContainer) }
@@ -65,7 +67,9 @@ class MainActivity : BaseActivity(),
         onBackPressed()
     }
 
-    override fun favoriteButtonClicked() {}
+    override fun favoriteButtonClicked() {
+        feedViewModel.toggleFeedFavoriteStatus()
+    }
 
     private fun observeViewModel() {
         appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen(it) }
