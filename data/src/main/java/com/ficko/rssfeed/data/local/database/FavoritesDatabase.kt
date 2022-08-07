@@ -9,7 +9,7 @@ import com.ficko.rssfeed.data.local.database.dto.RssFeedDto
 @Database(
     exportSchema = false,
     entities = [RssFeedDto::class],
-    version = 2
+    version = 4
 )
 @TypeConverters(DatabaseConverters::class)
 abstract class FavoritesDatabase : RoomDatabase() {
