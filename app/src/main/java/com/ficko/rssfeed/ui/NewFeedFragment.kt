@@ -1,7 +1,9 @@
 package com.ficko.rssfeed.ui
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +16,8 @@ import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_fragment) {
+class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_fragment),
+    TextView.OnEditorActionListener {
 
     private val feedViewModel by viewModels<RssFeedViewModel>()
     private val appBarViewModel by activityViewModels<AppBarViewModel>()
@@ -23,6 +26,13 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         setUpFragment()
+    }
+
+    override fun onEditorAction(view: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        return event?.let {
+            if (it.action == KeyEvent.ACTION_DOWN && it.keyCode == KeyEvent.KEYCODE_ENTER) buttonClicked()
+            true
+        } ?: false
     }
 
     fun buttonClicked() {
@@ -49,6 +59,7 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
 
     private fun setUpFragment() {
         binding.fragment = this
+        binding.input.setOnEditorActionListener(this)
     }
 
     private fun navigateToPreviousFragment() {
