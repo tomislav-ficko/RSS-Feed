@@ -6,26 +6,26 @@ import com.ficko.rssfeed.domain.RssFeed
 object RssFeedDtoMapper {
 
     fun mapRssFeedToDto(rssFeed: RssFeed): RssFeedDto {
-        return RssFeedDto().apply {
-            id = rssFeed.id
-            rssUrl = rssFeed.rssUrl
-            url = rssFeed.url
-            name = rssFeed.name
-            description = rssFeed.description
-            imageUrl = rssFeed.imageUrl
+        return RssFeedDto(
+            id = rssFeed.id.ifEmpty { "0" }.toInt(),
+            rssUrl = rssFeed.rssUrl,
+            url = rssFeed.url,
+            name = rssFeed.name,
+            description = rssFeed.description,
+            imageUrl = rssFeed.imageUrl,
             items = rssFeed.items
-        }
+        )
     }
 
     fun mapDtoToRssFeed(dto: RssFeedDto): RssFeed {
         return RssFeed().apply {
-            id = dto.id
+            id = dto.id.toString()
             rssUrl = dto.rssUrl
-            url = dto.url
-            name = dto.name
-            description = dto.description
-            imageUrl = dto.imageUrl
-            items = dto.items
+            url = dto.url ?: ""
+            name = dto.name ?: ""
+            description = dto.description ?: ""
+            imageUrl = dto.imageUrl ?: ""
+            items = dto.items ?: listOf()
         }
     }
 

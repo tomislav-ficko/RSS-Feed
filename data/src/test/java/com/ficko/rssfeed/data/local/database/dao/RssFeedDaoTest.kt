@@ -1,6 +1,7 @@
 package com.ficko.rssfeed.data.local.database.dao
 
 import com.ficko.rssfeed.data.local.database.dto.RssFeedDto
+import com.ficko.rssfeed.domain.RssFeedItem
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -10,7 +11,7 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldInsertNewRssFeedByIgnoringNewValueIfOldValueIsPresent() = runBlocking {
         // Given
-        val dto = RssFeedDto().apply { id = "feed id" }
+        val dto = getSampleFeedDto(1)
 
         // When
         testDatabase.rssFeedDao().insert(dto)
@@ -24,7 +25,7 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldGetRssFeedBasedOnId() = runBlocking {
         // Given
-        val dto = RssFeedDto().apply { id = "feed id" }
+        val dto = getSampleFeedDto(1)
         testDatabase.rssFeedDao().insert(dto)
 
         // When
@@ -37,8 +38,8 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldGetAllRssFeeds() = runBlocking {
         // Given
-        val dtoOne = RssFeedDto().apply { id = "feed one id" }
-        val dtoTwo = RssFeedDto().apply { id = "feed two id" }
+        val dtoOne = getSampleFeedDto(1)
+        val dtoTwo = getSampleFeedDto(2)
         testDatabase.rssFeedDao().insert(dtoOne, dtoTwo)
 
         // When
@@ -52,8 +53,8 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldDeleteRssFeed() = runBlocking {
         // Given
-        val dtoOne = RssFeedDto().apply { id = "feed one id" }
-        val dtoTwo = RssFeedDto().apply { id = "feed two id" }
+        val dtoOne = getSampleFeedDto(1)
+        val dtoTwo = getSampleFeedDto(2)
         testDatabase.rssFeedDao().insert(dtoOne, dtoTwo)
 
         // When
@@ -68,8 +69,8 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldDeleteRssFeedBasedOnId() = runBlocking {
         // Given
-        val dtoOne = RssFeedDto().apply { id = "feed one id" }
-        val dtoTwo = RssFeedDto().apply { id = "feed two id" }
+        val dtoOne = getSampleFeedDto(1)
+        val dtoTwo = getSampleFeedDto(2)
         testDatabase.rssFeedDao().insert(dtoOne, dtoTwo)
 
         // When
@@ -84,7 +85,7 @@ class RssFeedDaoTest : BaseDaoTest() {
     @Test
     fun shouldDeleteAllRssFeeds() = runBlocking {
         // Given
-        val dto = RssFeedDto().apply { id = "feed id" }
+        val dto = getSampleFeedDto(1)
         testDatabase.rssFeedDao().insert(dto)
 
         // When
@@ -93,5 +94,17 @@ class RssFeedDaoTest : BaseDaoTest() {
         // Then
         val dtoListFromDb = testDatabase.rssFeedDao().getAll()
         dtoListFromDb shouldBe emptyList()
+    }
+
+    private fun getSampleFeedDto(id: Int): RssFeedDto {
+        return RssFeedDto(
+            id = id,
+            rssUrl = "rss_url",
+            url = "url",
+            name = "name",
+            description = "description",
+            imageUrl = "image_url",
+            items = listOf(RssFeedItem().apply { this.id = "11" })
+        )
     }
 }
