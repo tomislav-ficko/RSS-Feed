@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="progressBarVisible"
+            type="Boolean" />
+
+        <variable
             name="messageVisible"
             type="Boolean" />
 
@@ -26,6 +30,16 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3"
             tools:listitem="@layout/list_view_holder" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:visibleIf="@{progressBarVisible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/empty_list_message_group"

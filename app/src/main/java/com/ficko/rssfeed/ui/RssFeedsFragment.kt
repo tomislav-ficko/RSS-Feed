@@ -24,7 +24,6 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-        binding.messageVisible = true
         feedViewModel.getRssFeeds()
     }
 
@@ -35,6 +34,7 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
 
     private fun observeViewModel() {
         feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
+        feedViewModel.anyUseCaseInProgress.observe(requireActivity()) { binding.progressBarVisible = it }
     }
 
     private fun setUpFragment(feeds: List<RssFeed>) {
