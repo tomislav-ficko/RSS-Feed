@@ -1,6 +1,5 @@
 package com.ficko.rssfeed.ui
 
-import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -55,7 +54,7 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     fun shouldGetFavoriteFeedsWhenFragmentIsLoadedAndArgumentIsSet() {
         // When
         loadFragment<RssFeedsFragment>(
-            Bundle().apply { putBoolean("shouldDisplayFavorites", true) }
+            RssFeedsFragmentArgs(shouldDisplayFavorites = true).toBundle()
         )
 
         // Then
@@ -182,6 +181,6 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     }
 
     private fun loadFragment(displayFavorites: Boolean = false) = loadFragment<RssFeedsFragment>(
-        Bundle().apply { putBoolean("shouldDisplayFavorites", displayFavorites) }
+        RssFeedsFragmentArgs(displayFavorites).toBundle()
     )
 }
