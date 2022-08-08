@@ -4,9 +4,11 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.ficko.rssfeed.R
 import com.ficko.rssfeed.databinding.MainActivityBinding
 import com.ficko.rssfeed.ui.base.BaseActivity
@@ -29,8 +31,8 @@ class MainActivity : BaseActivity(),
     private val appBarViewModel by viewModels<AppBarViewModel>()
     private val feedViewModel by viewModels<RssFeedViewModel>()
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
-    private val feedsNavController by lazy { findNavController(binding.feedsContainer) }
-    private val favoritesNavController by lazy { findNavController(binding.favoritesContainer) }
+    private val feedsNavController by lazy { getNavController(binding.feedsContainer.id) }
+    private val favoritesNavController by lazy { getNavController(binding.favoritesContainer.id) }
     private var appClosable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,8 +79,15 @@ class MainActivity : BaseActivity(),
         appBarViewModel.addNewFeedScreenOpen.observe(this) { displayAppBarForAddNewFeedScreen() }
     }
 
+    private fun getNavController(fragmentContainerViewId: Int): NavController {
+        val navHostFragment = supportFragmentManager.findFragmentById(fragmentContainerViewId) as NavHostFragment
+        return navHostFragment.findNavController()
+    }
+
     private fun setUpActivity() {
         binding.appBar.setListener(this)
+        feedsNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = false).toBundle())
+        favoritesNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = true).toBundle())
         setUpBottomNavBar()
     }
 
