@@ -86,8 +86,8 @@ class MainActivity : BaseActivity(),
 
     private fun setUpActivity() {
         binding.appBar.setListener(this)
-        feedsNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = false).toBundle())
-        favoritesNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = true).toBundle())
+        initializeFeedsNavGraph()
+        initializeFavoritesNavGraph()
         setUpBottomNavBar()
     }
 
@@ -117,6 +117,7 @@ class MainActivity : BaseActivity(),
         } else {
             binding.activeTabIndex = 1
             appBarViewModel.activeTabChanged(TabType.FAVORITES)
+            initializeFavoritesNavGraph()
         }
     }
 
@@ -128,6 +129,12 @@ class MainActivity : BaseActivity(),
 
     private fun displayAppBarForFeedDetailsScreen(feedName: String) =
         updateAppBar(backButtonEnabled = true, title = feedName, favoriteButtonEnabled = true)
+
+    private fun initializeFeedsNavGraph() =
+        feedsNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = false).toBundle())
+
+    private fun initializeFavoritesNavGraph() =
+        favoritesNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = true).toBundle())
 
     private fun updateAppBar(
         backButtonEnabled: Boolean = false,

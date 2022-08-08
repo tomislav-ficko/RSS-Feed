@@ -27,6 +27,10 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (args.shouldDisplayFavorites) feedViewModel.getFavoriteRssFeeds()
         else feedViewModel.getRssFeeds()
     }
