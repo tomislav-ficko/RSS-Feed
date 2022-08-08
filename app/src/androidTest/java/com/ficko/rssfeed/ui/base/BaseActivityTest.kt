@@ -15,8 +15,6 @@ import com.ficko.rssfeed.data.local.preferences.PreferenceHandler
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,21 +24,21 @@ abstract class BaseActivityTest : BaseMatchers {
 
     @Rule
     @JvmField
-    var hiltRule = HiltAndroidRule(this)
+    val taskExecutorRule = InstantTaskExecutorRule()
 
     @Rule
     @JvmField
-    val taskExecutorRule = InstantTaskExecutorRule()
+    var hiltRule = HiltAndroidRule(this)
 
-    protected lateinit var activityInstance: Activity
     protected val anyUseCaseInProgress = MutableLiveData<Boolean>()
     protected val anyUseCaseFailed = MutableLiveData<Throwable>()
-    private val coroutineScope = MainScope()
+    private lateinit var activityInstance: AppCompatActivity
 
     @Before
     fun setUpTest() {
         Intents.init()
         MockKAnnotations.init(this, relaxed = true)
+        hiltRule.inject()
     }
 
     @After
@@ -48,7 +46,6 @@ abstract class BaseActivityTest : BaseMatchers {
         try {
             Intents.release()
             PreferenceHandler.clearAll()
-            coroutineScope.cancel()
         } catch (e: Exception) {
         }
     }
@@ -61,12 +58,14 @@ abstract class BaseActivityTest : BaseMatchers {
             intent.data?.let { data = it }
             flags = intent.flags
         }
-        ActivityScenario.launch<T>(internalIntent).onActivity { activityInstance = it }
+        ActivityScenario.launch<T>(internalIntent).onActivity { setActivityInstance(it) }
         mockIntentCalls()
     }
 
-    protected fun getActivityInstance(): AppCompatActivity {
-        return activityInstance as AppCompatActivity
+    protected fun getActivityInstance() = activityInstance
+
+    protected fun setActivityInstance(activity: Activity) {
+        activityInstance = activity as AppCompatActivity
     }
 
     protected fun runOnUiThread(action: () -> Unit) {

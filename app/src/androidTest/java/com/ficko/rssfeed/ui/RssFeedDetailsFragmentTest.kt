@@ -44,8 +44,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     private val deleteFeedSuccess = MutableLiveData<Event<Unit>>()
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         every { feedViewModel.getRssFeedItemsSuccess } returns getRssFeedItemsSuccess
         every { feedViewModel.addFeedToFavoritesSuccess } returns addFeedToFavoritesSuccess
         every { feedViewModel.removeFeedFromFavoritesSuccess } returns removeFeedFromFavoritesSuccess
@@ -59,7 +58,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         val args = Bundle().apply { putSerializable("rssFeed", feed) }
 
         // When
-        loadFragment<RssFeedDetailsFragment>(args)
+        loadFragment(RssFeedDetailsFragment(), args)
 
         // Then
         verify(exactly = 1) { feedViewModel.updateCurrentlyOpenedRssFeed(feed) }
@@ -72,7 +71,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         val args = Bundle().apply { putSerializable("rssFeed", feed) }
 
         // When
-        loadFragment<RssFeedDetailsFragment>(args)
+        loadFragment(RssFeedDetailsFragment(), args)
 
         // Then
         verify(exactly = 1) { feedViewModel.getRssFeedItems(feed) }
@@ -137,10 +136,9 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.favorite_added_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.favorite_added_toast), this)
+        }
     }
 
     @FlakyTest
@@ -154,10 +152,9 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.favorite_removed_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.favorite_removed_toast), this)
+        }
     }
 
     @FlakyTest
@@ -171,10 +168,9 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.delete_feed_success_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.delete_feed_success_toast), this)
+        }
     }
 
     @Test
@@ -205,6 +201,6 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
     private fun loadFragment() {
         val args = Bundle().apply { putSerializable("rssFeed", RssFeed()) }
-        loadFragment<RssFeedDetailsFragment>(args)
+        loadFragment(RssFeedDetailsFragment(), args)
     }
 }

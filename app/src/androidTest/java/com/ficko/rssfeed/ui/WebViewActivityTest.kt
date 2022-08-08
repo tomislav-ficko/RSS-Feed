@@ -34,7 +34,7 @@ class WebViewActivityTest : BaseActivityTest() {
     fun shouldLoadUrlWhenActivityIsStarted() {
         // Then
         runOnUiThread {
-            val loadedUrl = activityInstance.findViewById<WebView>(R.id.web_view).url
+            val loadedUrl = getActivityInstance().findViewById<WebView>(R.id.web_view).url
             loadedUrl shouldBe item.url
         }
     }

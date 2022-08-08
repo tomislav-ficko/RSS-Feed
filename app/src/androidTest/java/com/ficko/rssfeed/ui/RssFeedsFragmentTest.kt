@@ -34,8 +34,7 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     private val getFavoriteRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         every { feedViewModel.anyUseCaseInProgress } returns anyUseCaseInProgress
         every { feedViewModel.getRssFeedsSuccess } returns getRssFeedsSuccess
         every { feedViewModel.getFavoriteRssFeedsSuccess } returns getFavoriteRssFeedsSuccess
@@ -53,7 +52,8 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
     @Test
     fun shouldGetFavoriteFeedsWhenFragmentIsLoadedAndArgumentIsSet() {
         // When
-        loadFragment<RssFeedsFragment>(
+        loadFragment(
+            RssFeedsFragment(),
             RssFeedsFragmentArgs(shouldDisplayFavorites = true).toBundle()
         )
 
@@ -98,7 +98,8 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
         getRssFeedsSuccess.postValue(listOf())
 
         // Then
-        onView(withText(activityInstance.getString(R.string.empty_list_text))).check(matches(isDisplayed()))
+        onView(withText(getActivityInstance().getString(R.string.empty_list_text)))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -110,7 +111,8 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
         getRssFeedsSuccess.postValue(listOf())
 
         // Then
-        onView(withText(activityInstance.getString(R.string.empty_favorites_list_text))).check(matches(isDisplayed()))
+        onView(withText(getActivityInstance().getString(R.string.empty_favorites_list_text)))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -180,7 +182,8 @@ class RssFeedsFragmentTest : BaseFragmentTest() {
         verify(exactly = 1) { appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.DETAILS, feeds[0].name) }
     }
 
-    private fun loadFragment(displayFavorites: Boolean = false) = loadFragment<RssFeedsFragment>(
+    private fun loadFragment(displayFavorites: Boolean = false) = loadFragment(
+        RssFeedsFragment(),
         RssFeedsFragmentArgs(displayFavorites).toBundle()
     )
 }

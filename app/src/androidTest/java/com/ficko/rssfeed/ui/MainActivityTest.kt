@@ -1,6 +1,5 @@
 package com.ficko.rssfeed.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -214,10 +213,9 @@ class MainActivityTest : BaseActivityTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.back_button_notice),
-            activityInstance as AppCompatActivity
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.back_button_notice), this)
+        }
     }
 
     private fun openFeedDetailsFragment() {

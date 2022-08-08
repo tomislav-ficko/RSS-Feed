@@ -34,12 +34,11 @@ class NewFeedFragmentTest : BaseFragmentTest() {
     private val feedExists = MutableLiveData<Unit>()
 
     @Before
-    override fun setUp() {
-        super.setUp()
+    fun setUp() {
         every { feedViewModel.addNewFeedSuccess } returns addNewFeedSuccess
         every { feedViewModel.feedExists } returns feedExists
         every { feedViewModel.anyUseCaseFailure } returns anyUseCaseFailed
-        loadFragment<NewFeedFragment>()
+        loadFragment(NewFeedFragment())
     }
 
     @Test
@@ -78,10 +77,9 @@ class NewFeedFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.new_feed_success_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.new_feed_success_toast), this)
+        }
     }
 
     @Test
@@ -102,10 +100,9 @@ class NewFeedFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.new_feed_exists_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.new_feed_exists_toast), this)
+        }
     }
 
     @Test
@@ -126,10 +123,9 @@ class NewFeedFragmentTest : BaseFragmentTest() {
 
         // Then
         waitForUiThread(300)
-        TestUtils.assertToastMessageIsDisplayed(
-            activityInstance.getString(R.string.new_feed_failure_toast),
-            activityInstance
-        )
+        with(getActivityInstance()) {
+            TestUtils.assertToastMessageIsDisplayed(getString(R.string.new_feed_failure_toast), this)
+        }
     }
 
     @FlakyTest
