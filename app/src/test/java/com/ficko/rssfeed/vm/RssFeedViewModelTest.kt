@@ -136,6 +136,6 @@ class RssFeedViewModelTest : BaseViewModelTest() {
 
         // Then
         coVerify(exactly = 1) { repository.deleteFeed(feed.rssUrl) }
-        viewModel.deleteFeedSuccess.value shouldBe Unit
+        viewModel.deleteFeedSuccess.value?.getContentIfNotHandled() shouldBe Unit
     }
 }

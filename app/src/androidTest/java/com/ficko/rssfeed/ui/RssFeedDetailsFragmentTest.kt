@@ -41,7 +41,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     private val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
     private val addFeedToFavoritesSuccess = MutableLiveData<Event<Unit>>()
     private val removeFeedFromFavoritesSuccess = MutableLiveData<Event<Unit>>()
-    private val deleteFeedSuccess = MutableLiveData<Unit>()
+    private val deleteFeedSuccess = MutableLiveData<Event<Unit>>()
 
     @Before
     override fun setUp() {
@@ -167,7 +167,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Unit)
+        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
 
         // Then
         waitForUiThread(300)
@@ -183,20 +183,21 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Unit)
+        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
 
         // Then
         waitForUiThread(300)
         verify(exactly = 1) { navController.navigateUp() }
     }
 
+    @FlakyTest
     @Test
     fun shouldNotifyAppBarViewModelWhenReturningToPreviousScreen() {
         // Given
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Unit)
+        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
 
         // Then
         verify(exactly = 1) { appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS) }
