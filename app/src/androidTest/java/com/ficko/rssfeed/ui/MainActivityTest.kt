@@ -164,7 +164,7 @@ class MainActivityTest : BaseActivityTest() {
     }
 
     @Test
-    fun shouldDisplayBackButtonAndTitleAndFavoriteButtonInAppBarWhenFeedDetailsFragmentIsVisible() {
+    fun shouldDisplayEverythingExceptAddButtonInAppBarWhenFeedDetailsFragmentIsVisible() {
         // When
         appBarViewModel.feedDetailsScreenOpen.postValue("Title")
 
@@ -173,6 +173,7 @@ class MainActivityTest : BaseActivityTest() {
         onView(withId(R.id.back_button)).check(matches(isDisplayed()))
         onView(allOf(isDescendantOfA(withId(R.id.app_bar)), withId(R.id.title))).check(matches(isDisplayed()))
         onView(withId(R.id.favorite_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.delete_button)).check(matches(isDisplayed()))
         onView(withId(R.id.add_button)).check(isNotDisplayed())
     }
 

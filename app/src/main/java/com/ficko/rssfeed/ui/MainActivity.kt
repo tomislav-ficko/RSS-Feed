@@ -132,7 +132,7 @@ class MainActivity : BaseActivity(),
         updateAppBar(backButtonEnabled = true, title = getString(R.string.title_add_new_feed))
 
     private fun displayAppBarForFeedDetailsScreen(feedName: String) =
-        updateAppBar(backButtonEnabled = true, title = feedName, favoriteButtonEnabled = true)
+        updateAppBar(backButtonEnabled = true, title = feedName, favoriteButtonEnabled = true, deleteButtonEnabled = true)
 
     private fun initializeFeedsNavGraph() =
         feedsNavController.setGraph(R.navigation.feeds_navigation, RssFeedsFragmentArgs(shouldDisplayFavorites = false).toBundle())

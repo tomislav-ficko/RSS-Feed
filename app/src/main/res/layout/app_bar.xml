@@ -84,7 +84,7 @@
             style="@style/AppBarIcons"
             android:onClick="@{() -> view.deleteButtonClicked()}"
             android:src="@android:drawable/ic_menu_delete"
-            android:visibleIf="@{addButtonEnabled}"
+            android:visibleIf="@{deleteButtonEnabled}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/add_button"
             app:layout_constraintTop_toTopOf="parent" />
