@@ -43,10 +43,14 @@ class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.lay
     private fun observeViewModel() {
         feedViewModel.getRssFeedItemsSuccess.observe(viewLifecycleOwner) { setUpFragment(it) }
         feedViewModel.addFeedToFavoritesSuccess.observe(viewLifecycleOwner) {
-            showSuccessNotification(requireContext().getString(R.string.favorite_added_toast))
+            it.getContentIfNotHandled()?.let {
+                showSuccessNotification(requireContext().getString(R.string.favorite_added_toast))
+            }
         }
         feedViewModel.removeFeedFromFavoritesSuccess.observe(viewLifecycleOwner) {
-            showSuccessNotification(requireContext().getString(R.string.favorite_removed_toast))
+            it.getContentIfNotHandled()?.let {
+                showSuccessNotification(requireContext().getString(R.string.favorite_removed_toast))
+            }
         }
     }
 

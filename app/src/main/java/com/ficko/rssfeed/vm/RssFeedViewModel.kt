@@ -17,8 +17,8 @@ class RssFeedViewModel @Inject constructor(
     val getFavoriteRssFeedsSuccess = MutableLiveData<List<RssFeed>>()
     val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
     val addNewFeedSuccess = MutableLiveData<Unit>()
-    val addFeedToFavoritesSuccess = MutableLiveData<Unit>()//TODO use EventWrapper to prevent multiple handling of a single LiveData
-    val removeFeedFromFavoritesSuccess = MutableLiveData<Unit>()//TODO use EventWrapper to prevent multiple handling of a single LiveData
+    val addFeedToFavoritesSuccess = MutableLiveData<Event<Unit>>()
+    val removeFeedFromFavoritesSuccess = MutableLiveData<Event<Unit>>()
     val feedExists = MutableLiveData<Unit>()
 
     private var currentlyOpenedRssFeed: RssFeed? = null
@@ -66,14 +66,14 @@ class RssFeedViewModel @Inject constructor(
     private fun addFeedToFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls()
         PreferenceHandler.putFavoriteFeedUrls(favorites + currentlyOpenedRssFeed!!.rssUrl)
-        addFeedToFavoritesSuccess.postValue(Unit)
+        addFeedToFavoritesSuccess.postValue(Event(Unit))
     }
 
     private fun removeFeedFromFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls().toMutableSet()
         favorites.remove(currentlyOpenedRssFeed!!.rssUrl)
         PreferenceHandler.putFavoriteFeedUrls(favorites)
-        removeFeedFromFavoritesSuccess.postValue(Unit)
+        removeFeedFromFavoritesSuccess.postValue(Event(Unit))
     }
 
     fun updateCurrentlyOpenedRssFeed(rssFeed: RssFeed?) {

@@ -105,7 +105,7 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         viewModel.toggleFeedFavoriteStatus()
 
         // Then
-        viewModel.addFeedToFavoritesSuccess.value shouldBe Unit
+        viewModel.addFeedToFavoritesSuccess.value?.getContentIfNotHandled() shouldBe Unit
         PreferenceHandler.getFavoriteFeedUrls().size shouldBe 1
         PreferenceHandler.getFavoriteFeedUrls().first() shouldBe feed.rssUrl
     }
@@ -121,7 +121,7 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         viewModel.toggleFeedFavoriteStatus()
 
         // Then
-        viewModel.removeFeedFromFavoritesSuccess.value shouldBe Unit
+        viewModel.removeFeedFromFavoritesSuccess.value?.getContentIfNotHandled() shouldBe Unit
         PreferenceHandler.getFavoriteFeedUrls().size shouldBe 0
     }
 }
