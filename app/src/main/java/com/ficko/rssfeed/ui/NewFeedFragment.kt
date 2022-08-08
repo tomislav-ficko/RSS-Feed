@@ -12,6 +12,7 @@ import com.ficko.rssfeed.databinding.NewFeedFragmentBinding
 import com.ficko.rssfeed.ui.base.BaseFragment
 import com.ficko.rssfeed.ui.common.Utils
 import com.ficko.rssfeed.vm.AppBarViewModel
+import com.ficko.rssfeed.vm.AppBarViewModel.FragmentType
 import com.ficko.rssfeed.vm.RssFeedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,7 +64,7 @@ class NewFeedFragment : BaseFragment<NewFeedFragmentBinding>(R.layout.new_feed_f
     }
 
     private fun navigateToPreviousFragment() {
-        appBarViewModel.returningToPreviousScreen()
+        appBarViewModel.activeFragmentChanged(FragmentType.FEEDS)
         findNavController().navigateUp()
     }
 }

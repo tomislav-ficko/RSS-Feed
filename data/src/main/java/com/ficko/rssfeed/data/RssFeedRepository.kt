@@ -29,6 +29,11 @@ class RssFeedRepository @Inject constructor(
         dao.insert(dto)
     }
 
+    suspend fun deleteFeed(rssUrl: String) {
+        val feedToBeRemoved = dao.getAll().first { it.rssUrl == rssUrl }
+        dao.delete(feedToBeRemoved)
+    }
+
     private suspend fun getUpdatedFeedData(currentFeeds: List<RssFeed>): List<RssFeed> {
         return currentFeeds.map {
             val response = api.getRssFeed(it.rssUrl)

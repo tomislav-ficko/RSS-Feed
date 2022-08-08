@@ -5,11 +5,11 @@ import org.simpleframework.xml.*
 @Root(name = "rss", strict = false)
 data class RssFeedResponse(
 
-    @field:Element
+    @field:Element(required = false)
     @field:Path("channel")
     var title: String? = null,
 
-    @field:Element
+    @field:Element(required = false)
     @field:Path("channel")
     var description: String? = null,
 
@@ -29,7 +29,7 @@ data class RssFeedResponse(
 @Root(name = "item", strict = false)
 data class RssFeedItemResponse constructor(
 
-    @field:Element
+    @field:Element(required = false)
     var title: String? = null,
 
     @field:Element(required = false)
