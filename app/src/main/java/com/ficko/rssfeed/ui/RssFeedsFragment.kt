@@ -41,9 +41,9 @@ class RssFeedsFragment : BaseFragment<RssFeedsFragmentBinding>(R.layout.rss_feed
     }
 
     private fun observeViewModel() {
-        feedViewModel.getRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
-        feedViewModel.getFavoriteRssFeedsSuccess.observe(requireActivity()) { setUpFragment(it) }
-        feedViewModel.anyUseCaseInProgress.observe(requireActivity()) { binding.progressBarVisible = it }
+        feedViewModel.getRssFeedsSuccess.observe(viewLifecycleOwner) { setUpFragment(it) }
+        feedViewModel.getFavoriteRssFeedsSuccess.observe(viewLifecycleOwner) { setUpFragment(it) }
+        feedViewModel.anyUseCaseInProgress.observe(viewLifecycleOwner) { binding.progressBarVisible = it }
     }
 
     private fun setUpFragment(feeds: List<RssFeed>) {
