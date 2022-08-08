@@ -24,6 +24,10 @@
         <variable
             name="addButtonEnabled"
             type="Boolean" />
+
+        <variable
+            name="deleteButtonEnabled"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,6 +75,16 @@
             android:onClick="@{() -> view.favoriteButtonClicked()}"
             android:src="@drawable/ic_favorite"
             android:visibleIf="@{favoriteButtonEnabled}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/delete_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_button"
+            style="@style/AppBarIcons"
+            android:onClick="@{() -> view.deleteButtonClicked()}"
+            android:src="@android:drawable/ic_menu_delete"
+            android:visibleIf="@{addButtonEnabled}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/add_button"
             app:layout_constraintTop_toTopOf="parent" />

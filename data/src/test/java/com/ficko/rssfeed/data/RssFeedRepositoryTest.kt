@@ -88,6 +88,19 @@ class RssFeedRepositoryTest {
         dtoSlot.captured.rssUrl shouldBe url
     }
 
+    @Test
+    fun shouldDeleteRssFeed() = runBlocking {
+        // Given
+        val dto = getSampleFeedDto()
+        coEvery { dao.getAll() } returns listOf(dto)
+
+        // When
+        repository.deleteFeed(dto.rssUrl)
+
+        // Then
+        coVerify(exactly = 1) { dao.delete(dto) }
+    }
+
     private fun getSampleFeedDto(): RssFeedDto {
         return RssFeedDto(
             id = 1,

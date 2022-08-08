@@ -73,6 +73,10 @@ class MainActivity : BaseActivity(),
         feedViewModel.toggleFeedFavoriteStatus()
     }
 
+    override fun deleteButtonClicked() {
+        feedViewModel.deleteFeed()
+    }
+
     private fun observeViewModel() {
         appBarViewModel.feedsScreenOpen.observe(this) { displayAppBarForFeedsScreen(it) }
         appBarViewModel.feedDetailsScreenOpen.observe(this) { feedName -> displayAppBarForFeedDetailsScreen(feedName) }
@@ -140,8 +144,9 @@ class MainActivity : BaseActivity(),
         backButtonEnabled: Boolean = false,
         title: String,
         favoriteButtonEnabled: Boolean = false,
-        addButtonEnabled: Boolean = false
-    ) = binding.appBar.updateView(backButtonEnabled, title, favoriteButtonEnabled, addButtonEnabled)
+        addButtonEnabled: Boolean = false,
+        deleteButtonEnabled: Boolean = false
+    ) = binding.appBar.updateView(backButtonEnabled, title, favoriteButtonEnabled, addButtonEnabled, deleteButtonEnabled)
 
     private fun setUpTabColors() {
         val stateUnchecked = intArrayOf(-android.R.attr.state_checked)

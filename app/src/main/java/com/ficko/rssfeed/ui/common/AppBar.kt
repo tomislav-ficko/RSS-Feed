@@ -14,6 +14,7 @@ class AppBar(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(c
         fun backButtonClicked()
         fun addButtonClicked()
         fun favoriteButtonClicked()
+        fun deleteButtonClicked()
     }
 
     private lateinit var binding: AppBarBinding
@@ -37,12 +38,14 @@ class AppBar(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(c
         backButtonEnabled: Boolean? = null,
         title: String? = null,
         favoriteButtonEnabled: Boolean? = null,
-        addButtonEnabled: Boolean? = null
+        addButtonEnabled: Boolean? = null,
+        deleteButtonEnabled: Boolean? = null
     ) {
         backButtonEnabled?.let { binding.backButtonEnabled = it }
         title?.let { binding.titleValue = it }
         addButtonEnabled?.let { binding.addButtonEnabled = it }
         favoriteButtonEnabled?.let { binding.favoriteButtonEnabled = it }
+        deleteButtonEnabled?.let { binding.deleteButtonEnabled = it }
     }
 
     fun backButtonClicked() {
@@ -57,6 +60,10 @@ class AppBar(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(c
         listener?.favoriteButtonClicked()
     }
 
+    fun deleteButtonClicked() {
+        listener?.deleteButtonClicked()
+    }
+
     private fun handleCustomAttributes(context: Context, attrs: AttributeSet?) {
         val attributeArray: TypedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.AppBar, 0, 0)
         attributeArray.let {
@@ -64,7 +71,8 @@ class AppBar(context: Context, attrs: AttributeSet? = null) : ConstraintLayout(c
             val title = it.getString(R.styleable.AppBar_title)
             val favoriteEnabled = it.getBoolean(R.styleable.AppBar_favoriteButtonEnabled, false)
             val addEnabled = it.getBoolean(R.styleable.AppBar_addButtonEnabled, false)
-            updateView(backEnabled, title, favoriteEnabled, addEnabled)
+            val deleteEnabled = it.getBoolean(R.styleable.AppBar_deleteButtonEnabled, false)
+            updateView(backEnabled, title, favoriteEnabled, addEnabled, deleteEnabled)
         }
     }
 }

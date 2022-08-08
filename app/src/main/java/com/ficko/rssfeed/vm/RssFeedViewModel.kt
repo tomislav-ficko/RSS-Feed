@@ -19,6 +19,7 @@ class RssFeedViewModel @Inject constructor(
     val addNewFeedSuccess = MutableLiveData<Unit>()
     val addFeedToFavoritesSuccess = MutableLiveData<Event<Unit>>()
     val removeFeedFromFavoritesSuccess = MutableLiveData<Event<Unit>>()
+    val deleteFeedSuccess = MutableLiveData<Unit>()
     val feedExists = MutableLiveData<Unit>()
 
     private var currentlyOpenedRssFeed: RssFeed? = null
@@ -63,6 +64,19 @@ class RssFeedViewModel @Inject constructor(
         }
     }
 
+    fun deleteFeed() {
+        currentlyOpenedRssFeed?.let {
+            executeUseCase {
+                repository.deleteFeed(it.rssUrl)
+                deleteFeedSuccess.postValue(Unit)
+            }
+        }
+    }
+
+    fun updateCurrentlyOpenedRssFeed(rssFeed: RssFeed?) {
+        currentlyOpenedRssFeed = rssFeed
+    }
+
     private fun addFeedToFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls()
         PreferenceHandler.putFavoriteFeedUrls(favorites + currentlyOpenedRssFeed!!.rssUrl)
@@ -74,9 +88,5 @@ class RssFeedViewModel @Inject constructor(
         favorites.remove(currentlyOpenedRssFeed!!.rssUrl)
         PreferenceHandler.putFavoriteFeedUrls(favorites)
         removeFeedFromFavoritesSuccess.postValue(Event(Unit))
-    }
-
-    fun updateCurrentlyOpenedRssFeed(rssFeed: RssFeed?) {
-        currentlyOpenedRssFeed = rssFeed
     }
 }

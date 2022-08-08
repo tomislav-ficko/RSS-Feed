@@ -4,6 +4,7 @@
         <attr name="backButtonEnabled" format="boolean" />
         <attr name="addButtonEnabled" format="boolean" />
         <attr name="favoriteButtonEnabled" format="boolean" />
+        <attr name="deleteButtonEnabled" format="boolean" />
         <attr name="title" format="string" />
     </declare-styleable>
 </resources>

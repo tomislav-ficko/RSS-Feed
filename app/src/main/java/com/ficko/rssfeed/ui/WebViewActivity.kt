@@ -36,6 +36,7 @@ class WebViewActivity : BaseActivity(),
 
     override fun addButtonClicked() {}
     override fun favoriteButtonClicked() {}
+    override fun deleteButtonClicked() {}
 
     private fun setUpActivity() {
         binding.appBar.setListener(this)

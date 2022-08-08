@@ -124,4 +124,18 @@ class RssFeedViewModelTest : BaseViewModelTest() {
         viewModel.removeFeedFromFavoritesSuccess.value?.getContentIfNotHandled() shouldBe Unit
         PreferenceHandler.getFavoriteFeedUrls().size shouldBe 0
     }
+
+    @Test
+    fun shouldDeleteRssFeed() {
+        // Given
+        val feed = RssFeed().apply { rssUrl = "url" }
+        viewModel.updateCurrentlyOpenedRssFeed(feed)
+
+        // When
+        viewModel.deleteFeed()
+
+        // Then
+        coVerify(exactly = 1) { repository.deleteFeed(feed.rssUrl) }
+        viewModel.deleteFeedSuccess.value shouldBe Unit
+    }
 }
