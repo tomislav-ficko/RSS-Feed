@@ -10,6 +10,8 @@
     <string name="new_feed_success_toast">Successfully subscribed to RSS feed</string>
     <string name="new_feed_failure_toast">Something went wrong while adding the feed</string>
     <string name="new_feed_exists_toast">You are already subscribed to the requested feed</string>
+    <string name="favorite_added_toast">Favorite successfully added</string>
+    <string name="favorite_removed_toast">Favorite successfully removed</string>
     <string name="empty_list_text">No RSS feeds available, please add a new one</string>
     <string name="empty_favorites_list_text">No favorite RSS feeds available</string>
 </resources>

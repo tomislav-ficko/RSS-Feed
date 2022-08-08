@@ -9,6 +9,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.ficko.rssfeed.R
+import com.ficko.rssfeed.common.TestUtils
 import com.ficko.rssfeed.domain.RssFeed
 import com.ficko.rssfeed.domain.RssFeedItem
 import com.ficko.rssfeed.ui.base.BaseFragmentTest
@@ -30,11 +31,15 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     val feedViewModel = mockk<RssFeedViewModel>(relaxed = true)
 
     private val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
+    private val addFeedToFavoritesSuccess = MutableLiveData<Unit>()
+    private val removeFeedFromFavoritesSuccess = MutableLiveData<Unit>()
 
     @Before
     override fun setUp() {
         super.setUp()
         every { feedViewModel.getRssFeedItemsSuccess } returns getRssFeedItemsSuccess
+        every { feedViewModel.addFeedToFavoritesSuccess } returns addFeedToFavoritesSuccess
+        every { feedViewModel.removeFeedFromFavoritesSuccess } returns removeFeedFromFavoritesSuccess
     }
 
     @Test
@@ -108,6 +113,38 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
 
         // Then
         verify(exactly = 1) { feedViewModel.updateCurrentlyOpenedRssFeed(null) }
+    }
+
+    @Test
+    fun shouldDisplayAddToFavoritesSuccessMessageWhenLiveDataEventIsReceived() {
+        // Given
+        loadFragment()
+
+        // When
+        feedViewModel.addFeedToFavoritesSuccess.postValue(Unit)
+
+        // Then
+        waitForUiThread(300)
+        TestUtils.assertToastMessageIsDisplayed(
+            activityInstance.getString(R.string.favorite_added_toast),
+            activityInstance
+        )
+    }
+
+    @Test
+    fun shouldDisplayRemoveFromFavoritesSuccessMessageWhenLiveDataEventIsReceived() {
+        // Given
+        loadFragment()
+
+        // When
+        feedViewModel.removeFeedFromFavoritesSuccess.postValue(Unit)
+
+        // Then
+        waitForUiThread(300)
+        TestUtils.assertToastMessageIsDisplayed(
+            activityInstance.getString(R.string.favorite_removed_toast),
+            activityInstance
+        )
     }
 
     private fun loadFragment() {
