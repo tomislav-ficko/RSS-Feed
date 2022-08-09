@@ -17,7 +17,7 @@ abstract class BaseApiTest {
     fun setUpServer() {
         mockWebServer.start()
         testRetrofit = Retrofit.Builder()
-            .baseUrl("https://placeholder.url")
+            .baseUrl(mockWebServer.url("www.placeholder.url"))
             .addConverterFactory(SimpleXmlConverterFactory.create())
             .build()
     }
