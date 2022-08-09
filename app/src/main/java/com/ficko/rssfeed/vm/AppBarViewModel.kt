@@ -1,6 +1,7 @@
 package com.ficko.rssfeed.vm
 
 import androidx.lifecycle.MutableLiveData
+import com.ficko.rssfeed.domain.RssFeed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -37,6 +38,13 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
         notifyAboutChangeToAppBar()
     }
 
+    fun updateAppBarOfOtherTabIfFeedDetailsWereOpen(deletedFeed: RssFeed) {
+        if (onFeedsTabAndFavoritesWereDisplayingThisFeedsDetails(deletedFeed))
+            activeFragmentOnFavoritesTab = FragmentType.FEEDS
+        else if (onFavoritesTabAndFeedsWereDisplayingThisFeedsDetails(deletedFeed))
+            activeFragmentOnFeedsTab = FragmentType.FEEDS
+    }
+
     private fun saveNewTitleForDetailsScreen(detailsScreenTitle: String?) {
         if (activeFragmentOnFeedsTab == FragmentType.DETAILS) {
             detailsScreenTitle?.let {
@@ -63,4 +71,12 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
             }
         }
     }
+
+    private fun onFeedsTabAndFavoritesWereDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FEEDS
+        && activeFragmentOnFavoritesTab == FragmentType.DETAILS
+        && lastDetailsScreenTitleForFavoritesTab == deletedFeed.name
+
+    private fun onFavoritesTabAndFeedsWereDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FAVORITES
+        && activeFragmentOnFeedsTab == FragmentType.DETAILS
+        && lastDetailsScreenTitleForFeedsTab == deletedFeed.name
 }

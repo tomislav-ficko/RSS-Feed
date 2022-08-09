@@ -41,7 +41,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     private val getRssFeedItemsSuccess = MutableLiveData<List<RssFeedItem>>()
     private val addFeedToFavoritesSuccess = MutableLiveData<Event<Unit>>()
     private val removeFeedFromFavoritesSuccess = MutableLiveData<Event<Unit>>()
-    private val deleteFeedSuccess = MutableLiveData<Event<Unit>>()
+    private val deleteFeedSuccess = MutableLiveData<Event<RssFeed>>()
 
     @Before
     fun setUp() {
@@ -164,7 +164,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
+        feedViewModel.deleteFeedSuccess.postValue(Event(RssFeed()))
 
         // Then
         waitForUiThread(300)
@@ -174,12 +174,26 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
     }
 
     @Test
+    fun shouldNotifyAppBarViewModelAboutChangingAppBarOnOtherTabWhenFeedIsSuccessfullyDeleted() {
+        // Given
+        val feed = RssFeed()
+        loadFragment()
+
+        // When
+        feedViewModel.deleteFeedSuccess.postValue(Event(feed))
+
+        // Then
+        waitForUiThread(300)
+        verify(exactly = 1) { appBarViewModel.updateAppBarOfOtherTabIfFeedDetailsWereOpen(feed) }
+    }
+
+    @Test
     fun shouldNavigateToPreviousScreenWhenFeedIsSuccessfullyDeleted() {
         // Given
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
+        feedViewModel.deleteFeedSuccess.postValue(Event(RssFeed()))
 
         // Then
         waitForUiThread(300)
@@ -193,7 +207,7 @@ class RssFeedDetailsFragmentTest : BaseFragmentTest() {
         loadFragment()
 
         // When
-        feedViewModel.deleteFeedSuccess.postValue(Event(Unit))
+        feedViewModel.deleteFeedSuccess.postValue(Event(RssFeed()))
 
         // Then
         verify(exactly = 1) { appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS) }

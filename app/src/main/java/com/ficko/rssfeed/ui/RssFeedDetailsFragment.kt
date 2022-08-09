@@ -58,6 +58,7 @@ class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.lay
         feedViewModel.deleteFeedSuccess.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
                 showSuccessNotification(requireContext().getString(R.string.delete_feed_success_toast))
+                appBarViewModel.updateAppBarOfOtherTabIfFeedDetailsWereOpen(it)
                 navigateToPreviousFragment()
             }
         }
