@@ -74,7 +74,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun deleteButtonClicked() {
-        feedViewModel.deleteFeed()
+        feedViewModel.deleteFeedAndRemoveFromFavorites()
     }
 
     private fun observeViewModel() {

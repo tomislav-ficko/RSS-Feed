@@ -59,16 +59,23 @@ class RssFeedViewModel @Inject constructor(
     fun toggleFeedFavoriteStatus() {
         currentlyOpenedRssFeed?.let { feed ->
             val favorites = PreferenceHandler.getFavoriteFeedUrls()
-            if (favorites.contains(feed.rssUrl)) removeFeedFromFavorites()
-            else addFeedToFavorites()
+            if (favorites.contains(feed.rssUrl)) {
+                removeFeedFromFavorites()
+                removeFeedFromFavoritesSuccess.postValue(Event(Unit))
+            } else {
+                addFeedToFavorites()
+                addFeedToFavoritesSuccess.postValue(Event(Unit))
+            }
         }
     }
 
-    fun deleteFeed() {
+    fun deleteFeedAndRemoveFromFavorites() {
         currentlyOpenedRssFeed?.let {
             executeUseCase {
+                removeFeedFromFavorites()
                 repository.deleteFeed(it.rssUrl)
                 deleteFeedSuccess.postValue(Event(it))
+                currentlyOpenedRssFeed = null
             }
         }
     }
@@ -80,13 +87,11 @@ class RssFeedViewModel @Inject constructor(
     private fun addFeedToFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls()
         PreferenceHandler.putFavoriteFeedUrls(favorites + currentlyOpenedRssFeed!!.rssUrl)
-        addFeedToFavoritesSuccess.postValue(Event(Unit))
     }
 
     private fun removeFeedFromFavorites() {
         val favorites = PreferenceHandler.getFavoriteFeedUrls().toMutableSet()
         favorites.remove(currentlyOpenedRssFeed!!.rssUrl)
         PreferenceHandler.putFavoriteFeedUrls(favorites)
-        removeFeedFromFavoritesSuccess.postValue(Event(Unit))
     }
 }
