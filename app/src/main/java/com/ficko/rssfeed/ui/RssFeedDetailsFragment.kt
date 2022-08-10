@@ -79,6 +79,6 @@ class RssFeedDetailsFragment : BaseFragment<RssFeedDetailsFragmentBinding>(R.lay
 
     private fun navigateToPreviousFragment() {
         appBarViewModel.activeFragmentChanged(AppBarViewModel.FragmentType.FEEDS)
-        findNavController().navigateUp()
+        findNavController().navigateUp() // TODO known bug, currentDestination is updated to RssFeedsFragment, but the UI doesn't update
     }
 }
