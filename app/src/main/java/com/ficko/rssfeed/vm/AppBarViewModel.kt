@@ -39,9 +39,9 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun updateAppBarOfOtherTabIfFeedDetailsWereOpen(deletedFeed: RssFeed) {
-        if (onFeedsTabAndFavoritesWereDisplayingThisFeedsDetails(deletedFeed))
+        if (onFeedsTabAndFavoritesTabWasDisplayingThisFeedsDetails(deletedFeed))
             activeFragmentOnFavoritesTab = FragmentType.FEEDS
-        else if (onFavoritesTabAndFeedsWereDisplayingThisFeedsDetails(deletedFeed))
+        else if (onFavoritesTabAndFeedsTabWasDisplayingThisFeedsDetails(deletedFeed))
             activeFragmentOnFeedsTab = FragmentType.FEEDS
     }
 
@@ -72,11 +72,11 @@ class AppBarViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    private fun onFeedsTabAndFavoritesWereDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FEEDS
+    private fun onFeedsTabAndFavoritesTabWasDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FEEDS
         && activeFragmentOnFavoritesTab == FragmentType.DETAILS
         && lastDetailsScreenTitleForFavoritesTab == deletedFeed.name
 
-    private fun onFavoritesTabAndFeedsWereDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FAVORITES
+    private fun onFavoritesTabAndFeedsTabWasDisplayingThisFeedsDetails(deletedFeed: RssFeed) = activeTab == TabType.FAVORITES
         && activeFragmentOnFeedsTab == FragmentType.DETAILS
         && lastDetailsScreenTitleForFeedsTab == deletedFeed.name
 }
