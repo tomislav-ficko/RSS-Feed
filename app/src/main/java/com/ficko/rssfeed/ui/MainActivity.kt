@@ -125,7 +125,8 @@ class MainActivity : BaseActivity(),
         } else if (feedsTabSelected() && selectedItemId == R.id.favorites_tab) {
             binding.activeTabIndex = FAVORITES_TAB_INDEX
             appBarViewModel.activeTabChanged(TabType.FAVORITES)
-            initializeFavoritesNavGraph()
+            if (favoritesRootVisible())
+                initializeFavoritesNavGraph() // So that the list is refreshed
         } else {
             // Nothing happens when the same tab is clicked
         }
