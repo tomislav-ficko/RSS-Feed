@@ -115,7 +115,7 @@ class MainActivity : BaseActivity(),
     private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.feeds_destination
     private fun selectFeedsTab() {
         binding.bottomNavBar.selectedItemId = R.id.feeds_tab
-        binding.activeTabIndex = 0
+        updateActiveTab(R.id.feeds_tab)
     }
 
     private fun updateActiveTab(selectedItemId: Int) {
