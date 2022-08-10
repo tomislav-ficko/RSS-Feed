@@ -28,6 +28,11 @@ import kotlinx.coroutines.launch
 class MainActivity : BaseActivity(),
     AppBar.AppBarListener {
 
+    companion object {
+        private const val FEEDS_TAB_INDEX = 0
+        private const val FAVORITES_TAB_INDEX = 1
+    }
+
     private val appBarViewModel by viewModels<AppBarViewModel>()
     private val feedViewModel by viewModels<RssFeedViewModel>()
     private val binding by lazy { MainActivityBinding.inflate(layoutInflater) }
@@ -104,9 +109,8 @@ class MainActivity : BaseActivity(),
         setUpTabColors()
     }
 
-    private fun feedsTabSelected() = binding.activeTabIndex == 0
-
-    private fun favoritesTabSelected() = binding.activeTabIndex == 1
+    private fun feedsTabSelected() = binding.activeTabIndex == FEEDS_TAB_INDEX
+    private fun favoritesTabSelected() = binding.activeTabIndex == FAVORITES_TAB_INDEX
     private fun feedsRootVisible() = feedsNavController.currentDestination?.id == R.id.feeds_destination
     private fun favoritesRootVisible() = favoritesNavController.currentDestination?.id == R.id.feeds_destination
     private fun selectFeedsTab() {
@@ -114,14 +118,16 @@ class MainActivity : BaseActivity(),
         binding.activeTabIndex = 0
     }
 
-    private fun updateActiveTab(activeItemId: Int) {
-        if (activeItemId == R.id.feeds_tab) {
-            binding.activeTabIndex = 0
+    private fun updateActiveTab(selectedItemId: Int) {
+        if (favoritesTabSelected() && selectedItemId == R.id.feeds_tab) {
+            binding.activeTabIndex = FEEDS_TAB_INDEX
             appBarViewModel.activeTabChanged(TabType.FEEDS)
-        } else {
-            binding.activeTabIndex = 1
+        } else if (feedsTabSelected() && selectedItemId == R.id.favorites_tab) {
+            binding.activeTabIndex = FAVORITES_TAB_INDEX
             appBarViewModel.activeTabChanged(TabType.FAVORITES)
             initializeFavoritesNavGraph()
+        } else {
+            // Nothing happens when the same tab is clicked
         }
     }
 
